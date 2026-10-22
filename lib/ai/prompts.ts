@@ -51,6 +51,31 @@ export function classifyPrompt(units: readonly TextUnit[], itemTypes: readonly I
   return { system, user: `문서:\n${renderDocument(units)}` };
 }
 
+// --- ③' 값 추출만 (기관·항목이 이미 정해진 알리오 보고서) -------------------------
+
+export const EXTRACT_SCHEMA_NAME = "extract_values";
+
+export const EXTRACT_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["extracted"],
+  properties: {
+    extracted: classifySchema([]).properties.extracted,
+  },
+};
+
+/** 기관명과 항목 종류는 이미 알고 있으므로 묻지 않고, 문서에 적힌 항목과 값만 뽑게 한다. */
+export function extractPrompt(units: readonly TextUnit[], itemName: string) {
+  const system = [
+    `당신은 공공기관 경영공시 문서를 읽는 보조자입니다. 이 문서는 "${itemName}" 보고서입니다. 아래 규칙을 반드시 지킵니다.`,
+    "- 문서에 적힌 내용만 사용합니다. 문서에 없는 값은 지어내지 않습니다.",
+    "- extracted: 문서에 적힌 주요 항목과 값을 표처럼 뽑습니다. label은 항목 이름, value는 문서에 적힌 값 그대로(숫자도 그대로), location은 그 값이 있는 위치입니다. 위치는 문서의 [위치] 표시를 그대로 씁니다.",
+    '- 값이 읽히지 않거나 비어 있으면 value를 "추출 불가"로 씁니다.',
+    "- 이 보고서를 평가하거나 기준과 비교하지 않습니다. 적힌 값을 옮기기만 합니다.",
+  ].join("\n");
+  return { system, user: `문서:\n${renderDocument(units)}` };
+}
+
 // --- ④ 체크리스트 대조 --------------------------------------------------------
 
 export const CHECK_SCHEMA_NAME = "check_findings";

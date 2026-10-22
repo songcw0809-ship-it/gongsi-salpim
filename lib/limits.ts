@@ -18,3 +18,14 @@ export const MAX_FILE_LABEL = "4MB";
  * 기본값(300초)보다 짧게 두어, 응답이 멈췄을 때 오래 붙잡혀 있지 않게 한다. 라우트에서 `maxDuration`으로 쓴다.
  */
 export const CHECK_MAX_DURATION_SECONDS = 120;
+
+/**
+ * 알리오에서 가져와 점검할 때 한 번에 고를 수 있는 기관 수와 요청(기관×항목) 수 (PRD 5번 M1).
+ * AI 비용과 알리오 서버 부담을 막으려는 한도이며 화면이 지킨다. 서버는 요청이 하나씩 독립이라 이 값을 직접 세지 못하고,
+ * 대신 아래 시간당 요청 수 제한으로 비용이 새는 것을 막는다.
+ */
+export const ALIO_MAX_INSTITUTIONS = 10;
+export const ALIO_MAX_REQUESTS = 20;
+
+/** 서버가 짧은 시간 안에 받아 주는 알리오 점검 요청 수 (서버 인스턴스마다 따로 세는 최선의 방어선이다) */
+export const ALIO_RATE_LIMIT = { max: 40, windowMs: 5 * 60 * 1000 } as const;
