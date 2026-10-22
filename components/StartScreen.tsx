@@ -5,6 +5,7 @@
 // 알리오에서 가져오기는 PLAN 9-1·9-2(서버 코드) 뒤에 이 화면에 붙인다. 지금은 자리만 잡아 두었다.
 import { useRef, useState } from "react";
 import FileResultTable from "@/components/FileResultTable";
+import InstitutionSummaryTable from "@/components/InstitutionSummaryTable";
 import { FALLBACK_MODEL, MODELS } from "@/lib/ai/models";
 import { requestCheck } from "@/lib/check-client";
 import { MAX_FILE_LABEL } from "@/lib/limits";
@@ -12,6 +13,7 @@ import { formatSize, precheck } from "@/lib/precheck";
 import { buildResultRows } from "@/lib/result-view";
 import type { ResultRow } from "@/lib/result-view";
 import { MAX_CONCURRENT_CHECKS, runPool } from "@/lib/run-pool";
+import { buildSummary } from "@/lib/summary-view";
 import type { FileResult } from "@/lib/types";
 
 /** rejected·ready 는 점검 전, 나머지는 점검을 시작한 파일 */
@@ -90,16 +92,17 @@ export default function StartScreen() {
 
   const beforeStart = rows.filter((r) => r.phase === "ready" || r.phase === "rejected");
   const started = rows.filter((r) => r.phase !== "ready" && r.phase !== "rejected");
-  const resultRows = buildResultRows(
-    started.map((r) => ({
-      id: r.id,
-      fileName: r.file.name,
-      phase: r.phase as "waiting" | "running" | "done" | "error",
-      result: r.result,
-      reason: r.reason,
-    })),
-    choices,
-  );
+  const viewInputs = started.map((r) => ({
+    id: r.id,
+    fileName: r.file.name,
+    phase: r.phase as "waiting" | "running" | "done" | "error",
+    result: r.result,
+    reason: r.reason,
+  }));
+  const resultRows = buildResultRows(viewInputs, choices);
+  // 점검이 모두 끝나면 기관별 요약과 순위를 보인다 (끝나기 전에는 null)
+  const summary = buildSummary(viewInputs, choices);
+  const nameOf = (key: string) => rows.find((r) => String(r.id) === key)?.file.name ?? key;
   const readyCount = rows.filter((r) => r.phase === "ready").length;
   const rejectedCount = rows.filter((r) => r.phase === "rejected").length;
 
@@ -229,6 +232,8 @@ export default function StartScreen() {
       {resultRows.length > 0 && (
         <FileResultTable rows={resultRows} onChoose={choose} onRetry={retry} retryingIds={retryingIds} />
       )}
+
+      {summary && <InstitutionSummaryTable summary={summary} nameOf={nameOf} />}
     </div>
   );
 }

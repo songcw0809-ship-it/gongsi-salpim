@@ -9,7 +9,7 @@ import type { ItemType } from "./checklist.ts";
 import type { ClassifiedFile, ExtractedField, FileResult, FileState } from "./types.ts";
 
 /** 체크리스트가 알고 있는 항목 종류들 (lib/check-file.ts 의 ITEM_TYPES 와 같은 값. 그 파일은 서버 코드라 브라우저에서 못 가져온다) */
-const ITEM_TYPES: readonly ItemType[] = [
+export const ITEM_TYPES: readonly ItemType[] = [
   ...new Set(CHECKLIST.map((r) => r.scope).filter((s): s is ItemType => s !== "공통")),
 ];
 
