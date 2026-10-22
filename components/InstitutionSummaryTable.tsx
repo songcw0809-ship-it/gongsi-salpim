@@ -1,17 +1,18 @@
 // Design Ref: DESIGN.md §1.2 ③ — 기관별 요약 영역: 순위, 기관, 의심 항목, 신뢰도 높음, 업로드되지 않은 항목.
 // Plan SC: PLAN.md 12번 — 확인 우선순위와 순위 기준 표시. 의심 항목이 없으면 "이상 없음"이라 쓰지 않는다 (PRD 5번 M2).
-// 행을 눌러 상세 패널을 여는 부분은 PLAN 13번에서 붙인다.
+// 기관 이름을 누르면 상세 패널(PLAN 13번)이 열린다.
+import { NO_FINDINGS_NOTE } from "@/lib/result-view";
 import type { Summary } from "@/lib/types";
 
 interface Props {
   summary: Summary;
   /** 파일 번호(문자열)를 화면에 보일 파일 이름으로 바꾼다 */
   nameOf: (fileKey: string) => string;
+  /** 기관 이름을 누르면 상세 패널을 연다 */
+  onSelect: (institution: string) => void;
 }
 
-const NO_FINDINGS = "발견된 의심 항목 없음. AI가 놓쳤을 수 있으니 담당자 확인이 필요합니다";
-
-export default function InstitutionSummaryTable({ summary, nameOf }: Props) {
+export default function InstitutionSummaryTable({ summary, nameOf, onSelect }: Props) {
   const { institutions, unassigned } = summary;
   if (institutions.length === 0 && unassigned.length === 0) return null;
 
@@ -23,6 +24,7 @@ export default function InstitutionSummaryTable({ summary, nameOf }: Props) {
       <p className="text-sm text-zinc-600 dark:text-zinc-400">
         <span className="font-medium">순위 기준:</span> {summary.rankBasis}
       </p>
+      <p className="text-xs text-zinc-500">기관 이름을 누르면 의심 항목의 근거를 볼 수 있습니다.</p>
 
       {institutions.length > 0 && (
         <div className="overflow-x-auto">
@@ -40,12 +42,20 @@ export default function InstitutionSummaryTable({ summary, nameOf }: Props) {
               {institutions.map((inst) => (
                 <tr key={inst.institution} className="border-b border-zinc-100 align-top dark:border-zinc-900">
                   <td className="py-2 pr-3 font-semibold">{inst.rank ?? "-"}</td>
-                  <td className="py-2 pr-3">{inst.institution}</td>
+                  <td className="py-2 pr-3">
+                    <button
+                      type="button"
+                      onClick={() => onSelect(inst.institution)}
+                      className="text-left font-medium text-blue-700 underline decoration-dotted underline-offset-2 dark:text-blue-300"
+                    >
+                      {inst.institution}
+                    </button>
+                  </td>
                   <td className="py-2 pr-3 text-right">{inst.rank === null ? "-" : inst.findingCount}</td>
                   <td className="py-2 pr-3 text-right">{inst.rank === null ? "-" : inst.highCount}</td>
                   <td className="py-2 text-xs text-zinc-600 dark:text-zinc-400">
                     {inst.rank === null && <p className="font-medium text-amber-800 dark:text-amber-300">순위에서 제외됨</p>}
-                    {inst.rank !== null && inst.findingCount === 0 && <p>{NO_FINDINGS}</p>}
+                    {inst.rank !== null && inst.findingCount === 0 && <p>{NO_FINDINGS_NOTE}</p>}
                     {inst.note && <p>{inst.note}</p>}
                   </td>
                 </tr>

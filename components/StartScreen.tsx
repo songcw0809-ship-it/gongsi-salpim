@@ -3,13 +3,15 @@
 // Design Ref: DESIGN.md §1.2 ①② — 시작 화면(AI 모델, 파일 올리기, 진행 상태)과 파일별 결과 표.
 // Plan SC: PLAN.md 10번(시작 화면), 11번(파일별 결과, 중복 고르기, 다시 시도).
 // 알리오에서 가져오기는 PLAN 9-1·9-2(서버 코드) 뒤에 이 화면에 붙인다. 지금은 자리만 잡아 두었다.
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import FileResultTable from "@/components/FileResultTable";
+import FindingDetailPanel from "@/components/FindingDetailPanel";
 import InstitutionSummaryTable from "@/components/InstitutionSummaryTable";
 import { FALLBACK_MODEL, MODELS } from "@/lib/ai/models";
 import { requestCheck } from "@/lib/check-client";
 import { MAX_FILE_LABEL } from "@/lib/limits";
 import { formatSize, precheck } from "@/lib/precheck";
+import { buildDetail } from "@/lib/detail-view";
 import { buildResultRows } from "@/lib/result-view";
 import type { ResultRow } from "@/lib/result-view";
 import { MAX_CONCURRENT_CHECKS, runPool } from "@/lib/run-pool";
@@ -36,7 +38,10 @@ export default function StartScreen() {
   /** 중복에서 담당자가 고른 파일. { [기관·항목 열쇠]: 파일 번호 } */
   const [choices, setChoices] = useState<Record<string, string>>({});
   const [retryingIds, setRetryingIds] = useState<ReadonlySet<number>>(new Set());
+  /** 상세 패널에 보이고 있는 기관 이름 */
+  const [selected, setSelected] = useState<string | null>(null);
   const nextId = useRef(1);
+  const closeDetail = useCallback(() => setSelected(null), []);
 
   const patch = (id: number, change: Partial<Row>) =>
     setRows((prev) => prev.map((r) => (r.id === id ? { ...r, ...change } : r)));
@@ -103,6 +108,9 @@ export default function StartScreen() {
   // 점검이 모두 끝나면 기관별 요약과 순위를 보인다 (끝나기 전에는 null)
   const summary = buildSummary(viewInputs, choices);
   const nameOf = (key: string) => rows.find((r) => String(r.id) === key)?.file.name ?? key;
+  // 점검을 다시 시도하는 동안에는 요약이 사라지므로 패널도 함께 닫힌다
+  const selectedRow = summary?.institutions.find((i) => i.institution === selected);
+  const detail = selectedRow ? buildDetail(selectedRow, nameOf) : null;
   const readyCount = rows.filter((r) => r.phase === "ready").length;
   const rejectedCount = rows.filter((r) => r.phase === "rejected").length;
 
@@ -233,7 +241,9 @@ export default function StartScreen() {
         <FileResultTable rows={resultRows} onChoose={choose} onRetry={retry} retryingIds={retryingIds} />
       )}
 
-      {summary && <InstitutionSummaryTable summary={summary} nameOf={nameOf} />}
+      {summary && <InstitutionSummaryTable summary={summary} nameOf={nameOf} onSelect={setSelected} />}
+
+      {detail && <FindingDetailPanel detail={detail} onClose={closeDetail} />}
     </div>
   );
 }
