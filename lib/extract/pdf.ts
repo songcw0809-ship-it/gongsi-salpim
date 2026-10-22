@@ -21,7 +21,7 @@ export async function extractPdf(data: Uint8Array): Promise<ExtractResult> {
       return { status: "unreadable", reason: "글자를 읽을 수 없음" };
     }
     return { status: "ok", units };
-  } catch (e) {
-    return { status: "failed", reason: e instanceof Error ? e.message : "PDF를 읽는 중 오류" };
+  } catch {
+    return { status: "failed", reason: "PDF를 읽을 수 없음 (파일이 손상되었거나 형식이 올바르지 않을 수 있음)" };
   }
 }
