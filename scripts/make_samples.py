@@ -4,7 +4,7 @@
 출력: samples/ (PDF 12개, answer-key.json, exceptions/)
 
 실행:  python scripts/make_samples.py              # 12개 + 예외 3개 + 정답지
-       python scripts/make_samples.py --with-big   # 20MB 초과 예외 파일도 만든다 (약 21MB)
+       python scripts/make_samples.py --with-big   # 4MB 초과 예외 파일도 만든다 (약 5MB)
 
 필요한 것: pymupdf, fonttools (pip install pymupdf fonttools), Windows 한글 글꼴(맑은 고딕).
 fonttools는 글꼴에서 쓴 글자만 남겨 파일 크기를 줄이는 데 쓴다 (없으면 PDF 한 개가 26MB가 된다).
@@ -292,8 +292,9 @@ def main():
 
     if with_big:
         big = pymupdf.open(OUT / f"{INSTITUTIONS[0]}_{EXEC}.pdf")
-        big.embfile_add("padding.bin", os.urandom(21 * 1024 * 1024))
-        big.save(EXC / "20MB초과_임원연봉.pdf")
+        # 파일당 제한(4MB = 4,194,304바이트)보다 크게 만든다.
+        big.embfile_add("padding.bin", os.urandom(5 * 1024 * 1024))
+        big.save(EXC / "4MB초과_임원연봉.pdf")
         big.close()
 
     # 정답지
@@ -316,7 +317,7 @@ def main():
             {"file": f"{INSTITUTIONS[5]}_{EXEC}(복사).pdf", "expect": "원본과 둘 다 '중복' 표시, 선택 전 순위에서 제외"},
             {"file": "이름없음_임원연봉.pdf", "expect": "기관 미확인으로 표시"},
             {"file": "(업로드 구성)", "expect": "한빛에너지공사 임원연봉만 올리고 직원평균보수는 올리지 않으면 '업로드되지 않음' 표시"},
-            {"file": "20MB초과_임원연봉.pdf (--with-big)", "expect": "그 파일만 처리 불가, 나머지는 계속 점검"},
+            {"file": "4MB초과_임원연봉.pdf (--with-big)", "expect": "그 파일만 처리 불가, 나머지는 계속 점검"},
         ],
     }
     (OUT / "answer-key.json").write_text(
@@ -330,7 +331,7 @@ def main():
     print("기대 순위:", " > ".join("=".join(t) for t in ranking))
     print("기대 상위 3곳:", ", ".join(key["expectedTop3"]))
     print("예외 파일: 스캔본(글자 있음=%s), 중복 복사본, 이름없음(기관명 있음=%s)%s" % (
-        scan_has_text, nameless_has_name, ", 20MB 초과" if with_big else ""))
+        scan_has_text, nameless_has_name, ", 4MB 초과" if with_big else ""))
     if scan_has_text or nameless_has_name:
         problems.append("예외 파일 검증 실패 (스캔본에 글자가 있거나 이름없음에 기관명이 있음)")
     if problems:
