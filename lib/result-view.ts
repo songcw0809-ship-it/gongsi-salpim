@@ -70,10 +70,13 @@ function toClassified(input: ViewInput): ClassifiedFile {
   return { fileName: key, status: r.status, institution: r.institution, itemType: r.itemType, reason: r.reason };
 }
 
+/** 의심 항목이 하나도 없을 때 보이는 문구. "이상 없음"이라고 쓰지 않는다 (PRD 5번 M2). */
+export const NO_FINDINGS_NOTE = "발견된 의심 항목 없음. AI가 놓쳤을 수 있으니 담당자 확인이 필요합니다";
+
 /** 의심 항목 수를 한 줄로. 의심 항목이 없어도 "이상 없음"이라고 쓰지 않는다 (PRD 5번 M2). */
 export function findingsNote(result: FileResult): string {
   if (result.findings.length === 0) {
-    return "발견된 의심 항목 없음. AI가 놓쳤을 수 있으니 담당자 확인이 필요합니다";
+    return NO_FINDINGS_NOTE;
   }
   const high = result.findings.filter((f) => f.confidence === "높음").length;
   return `오류 가능성 ${result.findings.length}건 (신뢰도 높음 ${high}건)`;
