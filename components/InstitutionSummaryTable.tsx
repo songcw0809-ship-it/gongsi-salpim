@@ -10,11 +10,13 @@ interface Props {
   nameOf: (fileKey: string) => string;
   /** 기관 이름을 누르면 상세 패널을 연다 */
   onSelect: (institution: string) => void;
+  /** 알리오에서 가져왔지만 점검 기준이 없어 순위에 넣지 않은 건 수 */
+  uncheckedCount?: number;
 }
 
-export default function InstitutionSummaryTable({ summary, nameOf, onSelect }: Props) {
+export default function InstitutionSummaryTable({ summary, nameOf, onSelect, uncheckedCount = 0 }: Props) {
   const { institutions, unassigned } = summary;
-  if (institutions.length === 0 && unassigned.length === 0) return null;
+  if (institutions.length === 0 && unassigned.length === 0 && uncheckedCount === 0) return null;
 
   return (
     <section aria-labelledby="summary-title" className="flex flex-col gap-3 rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
@@ -65,6 +67,14 @@ export default function InstitutionSummaryTable({ summary, nameOf, onSelect }: P
         </div>
       )}
 
+      {institutions.length === 0 && (
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">순위에 넣을 수 있는 점검 결과가 아직 없습니다.</p>
+      )}
+      {uncheckedCount > 0 && (
+        <p className="rounded-md bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+          점검 기준이 없는 항목 {uncheckedCount}건은 값만 뽑았고 순위에 넣지 않았습니다. 위 &ldquo;파일별 결과&rdquo;에서 추출한 값을 볼 수 있습니다.
+        </p>
+      )}
       {unassigned.length > 0 && (
         <p className="rounded-md bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
           기관 또는 항목 종류를 알 수 없어 순위에 넣지 못한 파일 {unassigned.length}개: {unassigned.map(nameOf).join(", ")}
