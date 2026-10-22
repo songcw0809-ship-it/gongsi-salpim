@@ -19,6 +19,38 @@ export type ExtractResult =
   /** 손상된 파일 등으로 읽는 도중 오류가 났다 */
   | { status: "failed"; reason: string };
 
+export type Confidence = "높음" | "중간" | "낮음";
+
+/** AI가 돌려준 지적 그대로. 아직 믿지 않은 값이라 모든 칸이 비어 있을 수 있다. */
+export interface RawFinding {
+  ruleId: string;
+  message: string;
+  confidence?: string;
+  evidence?: { quote?: string; location?: string };
+}
+
+/** 검증 장치를 통과한 지적 (DESIGN.md §2.3). */
+export interface Finding {
+  /** 체크리스트 기준 번호. 예: "R10-1" */
+  ruleId: string;
+  /** "오류 가능성"으로 시작하는 설명. 단정하지 않는다 */
+  message: string;
+  confidence: Confidence;
+  /** 인용문은 실제 글자에 있는 것이고, 위치는 검증 장치가 찾은 실제 위치이다 */
+  evidence: { quote: string; location: string };
+}
+
+export interface DroppedFinding {
+  raw: RawFinding;
+  /** 버린 이유 */
+  reason: string;
+}
+
+export interface GuardResult {
+  findings: Finding[];
+  dropped: DroppedFinding[];
+}
+
 /** 글자를 뽑고 기관명·항목 종류 분류까지 끝난 파일 한 개 (분류는 AI 단계가 채운다). */
 export interface ClassifiedFile {
   fileName: string;
