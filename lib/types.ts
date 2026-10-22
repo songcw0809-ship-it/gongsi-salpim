@@ -51,6 +51,32 @@ export interface GuardResult {
   dropped: DroppedFinding[];
 }
 
+/** 파일에서 뽑은 항목과 값 (DESIGN.md §2.3). 읽지 못한 값은 "추출 불가". */
+export interface ExtractedField {
+  label: string;
+  value: string;
+  location: string;
+}
+
+/** 파일 한 개를 점검한 결과 (DESIGN.md §2.3). */
+export interface FileResult {
+  fileName: string;
+  status: "ok" | "unreadable" | "failed";
+  reason?: string;
+  /** null이면 "기관 미확인" */
+  institution: string | null;
+  /** null이면 "항목 종류 미확인" */
+  itemType: ItemType | null;
+  extracted: ExtractedField[];
+  findings: Finding[];
+  /** 처리 시간 측정 (PRD 3번) */
+  elapsedMs: number;
+  /** 점검에 쓴 AI 모델 이름 */
+  model: string;
+  /** AI가 쓴 토큰 수. 모델별 비용 비교(PLAN 15번)에 쓴다 */
+  usage?: { inputTokens: number; outputTokens: number };
+}
+
 /** 글자를 뽑고 기관명·항목 종류 분류까지 끝난 파일 한 개 (분류는 AI 단계가 채운다). */
 export interface ClassifiedFile {
   fileName: string;
