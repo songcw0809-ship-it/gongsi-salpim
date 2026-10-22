@@ -18,10 +18,13 @@ import {
   CHECK_SCHEMA,
   CHECK_SCHEMA_NAME,
   CLASSIFY_SCHEMA_NAME,
+  EXTRACT_SCHEMA,
+  EXTRACT_SCHEMA_NAME,
   MAX_DOC_CHARS,
   checkPrompt,
   classifyPrompt,
   classifySchema,
+  extractPrompt,
   renderDocument,
 } from "./prompts.ts";
 
@@ -57,6 +60,10 @@ const NOT_EXTRACTED = "추출 불가";
 const classifyAnswer = z.object({
   institution: z.string().nullable(),
   itemType: z.string().nullable(),
+  extracted: z.array(z.object({ label: z.string(), value: z.string(), location: z.string() })),
+});
+
+const extractAnswer = z.object({
   extracted: z.array(z.object({ label: z.string(), value: z.string(), location: z.string() })),
 });
 
@@ -134,7 +141,20 @@ export async function analyzeDocument(args: {
     return { institution, itemType, extracted, findings: [], dropped: [], usage };
   }
 
-  // ④ 체크리스트 대조
+  // ④ 체크리스트 대조 · ⑤ 검증
+  const { findings, dropped } = await runCheck({ units, itemType, model, ai, addUsage });
+  return { institution, itemType, extracted, findings, dropped, usage };
+}
+
+/** ④ 체크리스트 대조와 ⑤ 검증 장치. 항목 종류를 알 때만 부른다. */
+async function runCheck(args: {
+  units: readonly TextUnit[];
+  itemType: ItemType;
+  model: string;
+  ai: AiClient;
+  addUsage: (u?: { inputTokens: number; outputTokens: number }) => void;
+}): Promise<{ findings: Finding[]; dropped: DroppedFinding[] }> {
+  const { units, itemType, model, ai, addUsage } = args;
   const rules = rulesFor(itemType);
   const k = checkPrompt(units, rules);
   const checked = await ai.json({
@@ -151,8 +171,55 @@ export async function analyzeDocument(args: {
     confidence: f.confidence,
     evidence: { quote: f.quote, location: f.location },
   }));
+  return verifyFindings(raw, units, rules);
+}
 
-  // ⑤ 검증 장치
-  const { findings, dropped } = verifyFindings(raw, units, rules);
-  return { institution, itemType, extracted, findings, dropped, usage };
+export interface KnownAnalysis {
+  extracted: ExtractedField[];
+  findings: Finding[];
+  dropped: DroppedFinding[];
+  /** 내장 점검 기준으로 대조했는가. 기준이 없는 항목은 값만 뽑고 false */
+  checked: boolean;
+  usage: { inputTokens: number; outputTokens: number };
+}
+
+/**
+ * 기관과 항목 종류를 이미 아는 보고서(알리오에서 가져온 것)를 분석한다.
+ * 분류는 AI에게 묻지 않고 값만 뽑는다. 점검 기준(checklist)이 있는 항목만 체크리스트와 대조하고,
+ * 기준이 없는 항목은 대조하지 않는다 — 내장 체크리스트에 없는 규정은 만들어 쓰지 않는다(PRD 5번 M2).
+ */
+export async function analyzeKnownDocument(args: {
+  units: readonly TextUnit[];
+  model: string;
+  ai: AiClient;
+  /** 알리오 항목 이름. 예: "임원 연봉" */
+  itemName: string;
+  /** 내장 점검 기준이 있는 항목이면 그 항목 종류 */
+  checklist?: ItemType;
+}): Promise<KnownAnalysis> {
+  const { units, model, ai, itemName, checklist } = args;
+  const usage = { inputTokens: 0, outputTokens: 0 };
+  const addUsage = (u?: { inputTokens: number; outputTokens: number }) => {
+    usage.inputTokens += u?.inputTokens ?? 0;
+    usage.outputTokens += u?.outputTokens ?? 0;
+  };
+
+  if (renderDocument(units).length > MAX_DOC_CHARS) {
+    throw new Error("문서가 너무 길어 점검할 수 없음");
+  }
+
+  const e = extractPrompt(units, itemName);
+  const answer = await ai.json({
+    model,
+    system: e.system,
+    user: e.user,
+    schemaName: EXTRACT_SCHEMA_NAME,
+    schema: EXTRACT_SCHEMA,
+  });
+  addUsage(answer.usage);
+  const extracted = checkExtracted(extractAnswer.parse(answer.data).extracted, units);
+
+  if (!checklist) return { extracted, findings: [], dropped: [], checked: false, usage };
+  const { findings, dropped } = await runCheck({ units, itemType: checklist, model, ai, addUsage });
+  return { extracted, findings, dropped, checked: true, usage };
 }

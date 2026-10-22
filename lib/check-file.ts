@@ -4,7 +4,7 @@ import { CHECKLIST } from "./checklist.ts";
 import type { ItemType } from "./checklist.ts";
 import { extractExcel } from "./extract/excel.ts";
 import { extractPdf } from "./extract/pdf.ts";
-import { analyzeDocument } from "./ai/analyze.ts";
+import { analyzeDocument, analyzeKnownDocument } from "./ai/analyze.ts";
 import type { AiClient } from "./ai/analyze.ts";
 import { isAllowedModel } from "./ai/models.ts";
 import type { ExtractResult, FileResult } from "./types.ts";
@@ -60,6 +60,50 @@ export async function checkFile(args: {
       findings: a.findings,
       usage: a.usage,
     });
+  } catch (e) {
+    return done({ status: "failed", reason: describeError(e) });
+  }
+}
+
+export interface KnownReportResult {
+  result: FileResult;
+  /** 내장 점검 기준으로 대조했는가. 기준이 없는 항목은 값만 뽑았으므로 false */
+  checked: boolean;
+}
+
+/**
+ * 기관과 항목을 이미 아는 보고서(알리오에서 가져온 PDF)를 점검한다.
+ * 기관·항목은 AI에게 묻지 않고 받은 값을 그대로 쓰며, 글자를 뽑아 값만 추출한다.
+ * 점검 기준(checklist)이 있는 항목만 체크리스트와 대조하고, 없는 항목은 대조하지 않는다.
+ */
+export async function checkKnownReport(args: {
+  fileName: string;
+  bytes: Uint8Array;
+  model: string;
+  ai: AiClient;
+  /** 알리오 기관명 */
+  institution: string;
+  /** 알리오 항목 이름. 예: "임원 연봉" */
+  itemName: string;
+  /** 내장 점검 기준이 있는 항목이면 그 항목 종류 */
+  checklist?: ItemType;
+}): Promise<KnownReportResult> {
+  const { fileName, bytes, model, ai, institution, itemName, checklist } = args;
+  if (!isAllowedModel(model)) throw new Error("허용되지 않은 AI 모델");
+
+  const started = Date.now();
+  const base = { fileName, institution, itemType: checklist ?? null, extracted: [], findings: [], model };
+  const done = (partial: Partial<FileResult> & Pick<FileResult, "status">, checked = false): KnownReportResult => ({
+    result: { ...base, ...partial, elapsedMs: Date.now() - started },
+    checked,
+  });
+
+  const text = await extract(fileName, bytes);
+  if (text.status !== "ok") return done({ status: text.status, reason: text.reason });
+
+  try {
+    const a = await analyzeKnownDocument({ units: text.units, model, ai, itemName, checklist });
+    return done({ status: "ok", extracted: a.extracted, findings: a.findings, usage: a.usage }, a.checked);
   } catch (e) {
     return done({ status: "failed", reason: describeError(e) });
   }
