@@ -126,6 +126,39 @@ export interface InstitutionGroup {
   hasUnresolvedDuplicate: boolean;
 }
 
+/** 기관별 요약 한 줄 (DESIGN.md §1.2 ③). */
+export interface InstitutionSummary {
+  institution: string;
+  /** 1부터 시작하는 순위. null이면 순위 계산에 쓸 수 있는 점검 결과가 없어 순위에서 제외 */
+  rank: number | null;
+  /** 신뢰도 "높음" 지적 수 (순위의 첫 번째 기준) */
+  highCount: number;
+  /** 전체 의심 항목 수 (순위의 두 번째 기준) */
+  findingCount: number;
+  countsByConfidence: Record<Confidence, number>;
+  /** 항목 종류별 칸: 정상 업로드 · 중복 · 업로드되지 않음 */
+  slots: ItemSlot[];
+  hasUnresolvedDuplicate: boolean;
+  /** 업로드되지 않은 항목 종류. "미제출"이라고 단정하지 않는다 */
+  missingItemTypes: ItemType[];
+  /** 화면에 보일 안내. 예: "중복 선택 필요", "업로드되지 않음: 직원평균보수". 없으면 null */
+  note: string | null;
+  /** 순위 계산에 쓴 지적 (중복이 해소되지 않은 칸은 빠짐). 상세 화면에서 쓴다 */
+  findings: { itemType: ItemType; fileName: string; finding: Finding }[];
+}
+
+/** 기관별 요약과 순위 (DESIGN.md §2.2 ⑥). */
+export interface Summary {
+  /** 순위를 어떻게 정했는지. 화면에 함께 보여 준다 (PRD 5번 M2) */
+  rankBasis: string;
+  /** 순위가 있는 기관(순위 순) 다음에 순위에서 제외된 기관(기관명 순) */
+  institutions: InstitutionSummary[];
+  /** 파일마다 화면 상태 */
+  files: OrganizedFile[];
+  /** 기관 미확인·항목 종류 미확인 파일 이름 */
+  unassigned: string[];
+}
+
 export interface Organized {
   /** 입력 순서 그대로, 파일마다 화면 상태 */
   files: OrganizedFile[];
