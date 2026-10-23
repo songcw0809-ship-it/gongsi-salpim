@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# bkit 작업 기록 (명령 기록이 들어 있어 올리지 않는다)
+.bkit/

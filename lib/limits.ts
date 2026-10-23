@@ -27,5 +27,8 @@ export const CHECK_MAX_DURATION_SECONDS = 120;
 export const ALIO_MAX_INSTITUTIONS = 10;
 export const ALIO_MAX_REQUESTS = 20;
 
+/** 서버가 짧은 시간 안에 받아 주는 파일 점검 요청 수 (파일 1개 = 1건. 서버 인스턴스마다 따로 세는 최선의 방어선이다) */
+export const CHECK_RATE_LIMIT = { max: 60, windowMs: 5 * 60 * 1000 } as const;
+
 /** 서버가 짧은 시간 안에 받아 주는 알리오 점검 요청 수 (서버 인스턴스마다 따로 세는 최선의 방어선이다) */
 export const ALIO_RATE_LIMIT = { max: 40, windowMs: 5 * 60 * 1000 } as const;

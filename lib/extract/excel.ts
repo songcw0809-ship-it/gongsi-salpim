@@ -2,8 +2,12 @@
 // 허용 형식은 .xlsx 이다 (exceljs는 옛 .xls를 읽지 못한다).
 import ExcelJS from "exceljs";
 import type { ExtractResult, TextUnit } from "../types";
+import { checkZipSize } from "./zip-guard.ts";
 
 export async function extractExcel(data: Uint8Array): Promise<ExtractResult> {
+  // 열기 전에 압축을 풀면 얼마나 커지는지부터 본다 (압축 폭탄 방어)
+  const zip = checkZipSize(data);
+  if (!zip.ok) return { status: "failed", reason: `엑셀을 읽을 수 없음 (${zip.reason})` };
   try {
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.load(Buffer.from(data) as unknown as ArrayBuffer);
