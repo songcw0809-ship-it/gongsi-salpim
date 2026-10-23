@@ -2,6 +2,7 @@
 
 // Design Ref: DESIGN.md §1.2 ② — 파일별 결과 영역: 파일, 기관, 항목 종류, 상태, 추출한 값(보기).
 // Plan SC: PLAN.md 11번 — 추출한 항목·값 표 보기, 중복 파일 중 사용할 파일 고르기, 점검 실패 파일 다시 시도.
+import ExtractedTable from "@/components/ExtractedTable";
 import type { ResultRow } from "@/lib/result-view";
 
 interface Props {
@@ -90,31 +91,11 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
                     </button>
                   )}
                 </td>
-                <td className="min-w-[14rem] py-2">
+                <td className="min-w-[8rem] py-2">
                   {row.extracted.length > 0 ? (
-                    <details>
-                      <summary className="cursor-pointer text-xs font-medium text-blue-700 dark:text-blue-300">
-                        보기 ({row.extracted.length}개)
-                      </summary>
-                      <table className="mt-2 w-full border-collapse text-xs">
-                        <thead>
-                          <tr className="text-zinc-500">
-                            <th className="py-1 pr-2 text-left font-medium">항목</th>
-                            <th className="py-1 pr-2 text-left font-medium">값</th>
-                            <th className="py-1 text-left font-medium">위치</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {row.extracted.map((f, i) => (
-                            <tr key={i} className="border-t border-zinc-100 dark:border-zinc-900">
-                              <td className="py-1 pr-2 whitespace-nowrap">{f.label}</td>
-                              <td className={`py-1 pr-2 whitespace-nowrap ${f.value === "추출 불가" ? "text-zinc-400" : ""}`}>{f.value}</td>
-                              <td className="py-1 whitespace-nowrap text-zinc-500">{f.location}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </details>
+                    <a href={`#extracted-${row.id}`} className="text-xs font-medium text-blue-700 dark:text-blue-300">
+                      {row.extracted.length}개 (아래 표)
+                    </a>
                   ) : (
                     <span className="text-xs text-zinc-400">-</span>
                   )}
@@ -124,6 +105,18 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
           </tbody>
         </table>
       </div>
+      {rows
+        .filter((r) => r.extracted.length > 0)
+        .map((row) => (
+          <details key={row.id} id={`extracted-${row.id}`} open={rows.length === 1} className="rounded-md border border-zinc-200 p-3 dark:border-zinc-800">
+            <summary className="cursor-pointer text-sm font-medium">
+              {row.fileName} · 추출한 값 ({row.extracted.length}개)
+            </summary>
+            <div className="mt-3">
+              <ExtractedTable fields={row.extracted} />
+            </div>
+          </details>
+        ))}
     </section>
   );
 }
