@@ -3,9 +3,9 @@ import { buildFindingBars } from "@/lib/chart-data";
 import type { Summary } from "@/lib/types";
 
 const LEVELS = [
-  { key: "high", label: "신뢰도 높음", color: "#ef4444" },
-  { key: "mid", label: "중간", color: "#facc15" },
-  { key: "low", label: "낮음", color: "#2563eb" },
+  { key: "high", label: "신뢰도 높음", color: "#e5484d" },
+  { key: "mid", label: "중간", color: "#f5b942" },
+  { key: "low", label: "낮음", color: "#4f8cf7" },
 ] as const;
 
 export default function FindingsChart({ summary }: { summary: Summary }) {
@@ -31,9 +31,9 @@ export default function FindingsChart({ summary }: { summary: Summary }) {
               {b.institution}
             </span>
             <span className="flex h-3 overflow-hidden rounded-full bg-[#eef1f6]" role="img" aria-label={`${b.institution} 의심 항목 ${b.total}건 (높음 ${b.high}, 중간 ${b.mid}, 낮음 ${b.low})`}>
-              <span className="flex h-full" style={{ width: `${b.percent}%` }}>
+              <span className="flex h-full gap-[3px]" style={{ width: `${b.percent}%` }}>
                 {[b.high, b.mid, b.low].map((v, i) =>
-                  v > 0 ? <span key={i} style={{ flex: v, background: LEVELS[i].color }} className="h-full" /> : null,
+                  v > 0 ? <span key={i} style={{ flex: v, background: LEVELS[i].color }} className="h-full rounded-full" /> : null,
                 )}
               </span>
             </span>
