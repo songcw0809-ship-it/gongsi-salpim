@@ -1,6 +1,7 @@
 // Design Ref: DESIGN.md §1.2 ③ — 기관별 요약 영역: 순위, 기관, 의심 항목, 신뢰도 높음, 업로드되지 않은 항목.
 // Plan SC: PLAN.md 12번 — 확인 우선순위와 순위 기준 표시. 의심 항목이 없으면 "이상 없음"이라 쓰지 않는다 (PRD 5번 M2).
 // 기관 이름을 누르면 상세 패널(PLAN 13번)이 열린다.
+import { maskText } from "@/lib/mask";
 import { NO_FINDINGS_NOTE } from "@/lib/result-view";
 import type { Summary } from "@/lib/types";
 
@@ -77,7 +78,7 @@ export default function InstitutionSummaryTable({ summary, nameOf, onSelect, unc
       )}
       {unassigned.length > 0 && (
         <p className="rounded-md bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
-          기관 또는 항목 종류를 알 수 없어 순위에 넣지 못한 파일 {unassigned.length}개: {unassigned.map(nameOf).join(", ")}
+          기관 또는 항목 종류를 알 수 없어 순위에 넣지 못한 파일 {unassigned.length}개: {unassigned.map((key) => maskText(nameOf(key))).join(", ")}
         </p>
       )}
     </section>

@@ -4,6 +4,7 @@
 //
 // 이 파일은 일반 함수만 있어서 화면 없이 시험할 수 있다 (scripts/check_detail.mjs).
 import { findRule } from "./checklist.ts";
+import { maskAll } from "./mask.ts";
 import { NO_FINDINGS_NOTE } from "./result-view.ts";
 import type { Confidence, InstitutionSummary } from "./types.ts";
 
@@ -37,6 +38,8 @@ export interface Detail {
   emptyMessage: string | null;
   /** "중복 선택 필요", "업로드되지 않음: …" 같은 안내 */
   note: string | null;
+  /** 개인정보로 보여서 가린 값의 수 (화면 표시용으로만 가림) */
+  maskedCount: number;
 }
 
 /**
@@ -50,21 +53,34 @@ export interface Detail {
  */
 export function buildDetail(institution: InstitutionSummary, nameOf: (fileKey: string) => string): Detail {
   const groups: DetailGroup[] = [];
+  let maskedCount = 0;
+  /** 화면에 보일 글자를 가리고 가린 수를 센다 */
+  const mask = (text: string): string => {
+    const m = maskAll([text]);
+    maskedCount += m.count;
+    return m.texts[0] as string;
+  };
   for (const { itemType, fileName, finding } of institution.findings) {
     const rule = findRule(finding.ruleId);
     if (!rule) continue;
     const item: DetailItem = {
       ruleId: rule.id,
-      message: finding.message,
+      message: mask(finding.message),
       confidence: finding.confidence,
       criterion: rule.criterion,
       source: rule.source,
-      quote: finding.evidence.quote,
-      location: finding.evidence.location,
+      quote: mask(finding.evidence.quote),
+      location: mask(finding.evidence.location),
     };
-    const group = groups.find((g) => g.itemType === itemType && g.fileName === nameOf(fileName));
+    // 파일 이름의 가림은 묶음을 새로 만들 때 한 번만 센다
+    const shown = maskAll([nameOf(fileName)]);
+    const shownName = shown.texts[0] as string;
+    const group = groups.find((g) => g.itemType === itemType && g.fileName === shownName);
     if (group) group.items.push(item);
-    else groups.push({ itemType, fileName: nameOf(fileName), items: [item] });
+    else {
+      maskedCount += shown.count;
+      groups.push({ itemType, fileName: shownName, items: [item] });
+    }
   }
 
   // 순위에서 제외된 기관은 지적을 세지 않았으므로 "의심 항목 없음"이라고 쓰면 안 된다.
@@ -79,5 +95,6 @@ export function buildDetail(institution: InstitutionSummary, nameOf: (fileKey: s
         ? "점검 결과를 쓸 수 없어 순위에서 제외된 기관입니다. 아래 안내를 확인하세요"
         : NO_FINDINGS_NOTE,
     note: institution.note,
+    maskedCount,
   };
 }

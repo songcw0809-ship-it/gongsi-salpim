@@ -1,3 +1,4 @@
+import NoticeBanner from "@/components/NoticeBanner";
 import StartScreen from "@/components/StartScreen";
 
 export default function Home() {
@@ -10,12 +11,7 @@ export default function Home() {
           최종 판단은 담당자가 합니다.
         </p>
       </header>
-      <div
-        role="note"
-        className="rounded-md bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
-      >
-        파일 내용이 외부 AI 서비스로 전송됩니다. 파일과 점검 결과는 저장하지 않으며, 새로고침하면 결과가 사라집니다.
-      </div>
+      <NoticeBanner />
       <StartScreen />
     </main>
   );

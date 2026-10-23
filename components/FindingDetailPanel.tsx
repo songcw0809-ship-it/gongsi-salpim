@@ -57,6 +57,11 @@ export default function FindingDetailPanel({ detail, onClose }: Props) {
           </p>
         )}
         {detail.note && <p className="text-sm text-zinc-600 dark:text-zinc-400">{detail.note}</p>}
+        {detail.maskedCount > 0 && (
+          <p role="status" className="text-xs text-zinc-500">
+            개인정보로 보이는 값 {detail.maskedCount}개를 가려서 보여 줍니다.
+          </p>
+        )}
 
         {detail.groups.map((group) => (
           <section key={`${group.itemType}/${group.fileName}`} className="flex flex-col gap-3">
