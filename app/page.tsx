@@ -1,5 +1,7 @@
+import LogoutButton from "@/components/LogoutButton";
 import NoticeBanner from "@/components/NoticeBanner";
 import StartScreen from "@/components/StartScreen";
+import { accessPassword } from "@/lib/auth";
 
 const NAV = [
   { href: "#alio-title", label: "알리오에서 가져오기" },
@@ -25,7 +27,10 @@ export default function Home() {
             </li>
           ))}
         </ul>
-        <span className="rounded-full bg-[var(--ink)] px-4 py-1.5 text-xs font-semibold text-white">경영관리과 전용</span>
+        <div className="flex items-center gap-2">
+          {accessPassword() && <LogoutButton />}
+          <span className="rounded-full bg-[var(--ink)] px-4 py-1.5 text-xs font-semibold text-white">경영관리과 전용</span>
+        </div>
       </nav>
 
       {/* 첫 화면 */}
