@@ -7,6 +7,7 @@
 import { organize, slotKey } from "./aggregate.ts";
 import type { AlioOutcome } from "./alio/api-types.ts";
 import { CHECKLIST } from "./checklist.ts";
+import { maskAll } from "./mask.ts";
 import type { ItemType } from "./checklist.ts";
 import type { ClassifiedFile, ExtractedField, FileResult, FileState } from "./types.ts";
 
@@ -69,6 +70,26 @@ export interface ResultRow {
   /** 중복을 해소할 때 choices 에 넣을 열쇠 (기관·항목을 알 때만) */
   choiceKey?: string;
   extracted: ExtractedField[];
+  /** 개인정보로 보여서 가린 값의 수 (화면 표시용으로만 가리고 받은 결과는 그대로 둔다) */
+  maskedCount: number;
+}
+
+/** 가리기 전의 줄 */
+type RawRow = Omit<ResultRow, "maskedCount">;
+
+/** 화면에 보일 글자 중 개인정보로 보이는 값(전화번호·이메일·주민등록번호 형태)을 가린다 */
+function maskRow(row: RawRow): ResultRow {
+  const m = maskAll([row.fileName, row.institution, row.itemType, row.note, ...row.extracted.flatMap((e) => [e.label, e.value, e.location])]);
+  const [fileName, institution, itemType, note, ...rest] = m.texts;
+  return {
+    ...row,
+    fileName: fileName as string,
+    institution: institution as string,
+    itemType: itemType as string,
+    note,
+    extracted: row.extracted.map((_, i) => ({ label: rest[i * 3] as string, value: rest[i * 3 + 1] as string, location: rest[i * 3 + 2] as string })),
+    maskedCount: m.count,
+  };
 }
 
 const STATE_LABEL: Record<RowState, string> = {
@@ -120,7 +141,7 @@ export function buildResultRows(
   const organized = organize(finished.map(toClassified), ITEM_TYPES, choices);
   const stateById = new Map(finished.map((f, i) => [f.id, organized.files[i]]));
 
-  return inputs.map((input): ResultRow => {
+  const build = (input: ViewInput): RawRow => {
     const result = input.result;
     const alio = input.alio;
     const period = alio?.period ? `${alio.period} 보고서` : null;
@@ -186,5 +207,7 @@ export function buildResultRows(
       choiceKey: known ? slotKey(result.institution as string, result.itemType as ItemType) : undefined,
       extracted: state === "unreadable" || state === "failed" ? [] : (result?.extracted ?? []),
     };
-  });
+  };
+
+  return inputs.map((input) => maskRow(build(input)));
 }

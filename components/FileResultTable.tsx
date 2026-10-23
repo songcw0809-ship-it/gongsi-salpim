@@ -31,12 +31,18 @@ function badgeClass(state: ResultRow["state"]): string {
 
 export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }: Props) {
   const duplicates = rows.filter((r) => r.canChoose).length;
+  const masked = rows.reduce((sum, r) => sum + r.maskedCount, 0);
 
   return (
     <section aria-labelledby="result-title" className="flex flex-col gap-3 rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
       <h2 id="result-title" className="text-lg font-semibold">
         파일별 결과
       </h2>
+      {masked > 0 && (
+        <p role="status" className="rounded-md bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+          개인정보로 보이는 값(전화번호·이메일·주민등록번호 형태) {masked}개를 가려서 보여 줍니다.
+        </p>
+      )}
       {duplicates > 0 && (
         <p role="status" className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
           같은 기관·같은 항목의 파일이 2개 이상입니다. 사용할 파일을 고르기 전에는 그 기관·항목을 순위에서 뺍니다.
