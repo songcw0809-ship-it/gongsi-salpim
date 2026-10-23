@@ -1,0 +1,1777 @@
+[
+  {
+    "file": "한빛에너지공사_임원연봉.pdf",
+    "result": {
+      "fileName": "한빛에너지공사_임원연봉.pdf",
+      "institution": "한빛에너지공사",
+      "itemType": "임원연봉",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준 (2026년은 예산기준)",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기본급(기본연봉)",
+          "value": "143,063",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 항목별 수당",
+          "value": "12,312",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 급여성 복리후생비",
+          "value": "6,568",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 경영평가 성과급",
+          "value": "41,985",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기타 성과상여금",
+          "value": "4,876",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기본급(기본연봉)",
+          "value": "122,522",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 항목별 수당",
+          "value": "8,153",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 급여성 복리후생비",
+          "value": "3,869",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 경영평가 성과급",
+          "value": "23,038",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기타 성과상여금",
+          "value": "5,451",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기본급(기본연봉)",
+          "value": "134,346",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 항목별 수당",
+          "value": "7,313",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 급여성 복리후생비",
+          "value": "3,009",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 경영평가 성과급",
+          "value": "21,234",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기타 성과상여금",
+          "value": "4,809",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원의 성별 평균보수 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "남성 평균보수",
+          "value": "150,234",
+          "location": "1쪽"
+        },
+        {
+          "label": "여성 평균보수",
+          "value": "151,294",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "C-1",
+          "message": "오류 가능성: 공시 기간은 2021년~2025년으로 표시되어 있으나, 보수 현황에 연도별 자료가 구분되어 있지 않고 미제공 기간의 사유도 기재되어 있지 않아 최근 5년간의 자료 공시가 미흡한 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1706,
+        "outputTokens": 1076
+      },
+      "elapsedMs": 19089
+    }
+  },
+  {
+    "file": "한빛에너지공사_직원평균보수.pdf",
+    "result": {
+      "fileName": "한빛에너지공사_직원평균보수.pdf",
+      "institution": "한빛에너지공사",
+      "itemType": "직원평균보수",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준",
+          "location": "1쪽"
+        },
+        {
+          "label": "직원 1인당 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기본급",
+          "value": "47,234",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 항목별 수당",
+          "value": "6,149",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 경영평가 성과급",
+          "value": "10,550",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기타 성과상여금",
+          "value": "1,232",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기본급",
+          "value": "45,965",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 항목별 수당",
+          "value": "4,783",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 경영평가 성과급",
+          "value": "6,405",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기타 성과상여금",
+          "value": "3,719",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기본급",
+          "value": "48,933",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 항목별 수당",
+          "value": "3,332",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 경영평가 성과급",
+          "value": "7,321",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기타 성과상여금",
+          "value": "2,968",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기본급",
+          "value": "48,904",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 항목별 수당",
+          "value": "5,134",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 경영평가 성과급",
+          "value": "8,004",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기타 성과상여금",
+          "value": "2,316",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기본급",
+          "value": "42,542",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 항목별 수당",
+          "value": "6,132",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 경영평가 성과급",
+          "value": "8,407",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기타 성과상여금",
+          "value": "2,907",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(남성)",
+          "value": "61,993천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(여성)",
+          "value": "58,023천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "신입직원 평균보수",
+          "value": "34,894천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(남성)",
+          "value": "12.2년",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(여성)",
+          "value": "10.3년",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1781,
+        "outputTokens": 1041
+      },
+      "elapsedMs": 12832
+    }
+  },
+  {
+    "file": "푸른물관리공단_임원연봉.pdf",
+    "result": {
+      "fileName": "푸른물관리공단_임원연봉.pdf",
+      "institution": "푸른물관리공단",
+      "itemType": "임원연봉",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준 (2026년은 예산기준)",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기본급(기본연봉)",
+          "value": "144,083",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 항목별 수당",
+          "value": "9,166",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 경영평가 성과급",
+          "value": "36,641",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기타 성과상여금",
+          "value": "4,920",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기본급(기본연봉)",
+          "value": "139,079",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 항목별 수당",
+          "value": "11,416",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 경영평가 성과급",
+          "value": "27,228",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기타 성과상여금",
+          "value": "5,796",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기본급(기본연봉)",
+          "value": "137,087",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 항목별 수당",
+          "value": "13,684",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 경영평가 성과급",
+          "value": "29,513",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기타 성과상여금",
+          "value": "6,561",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원의 성별 평균보수 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "남성 평균보수",
+          "value": "168,130",
+          "location": "1쪽"
+        },
+        {
+          "label": "여성 평균보수",
+          "value": "138,817",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "R10-3",
+          "message": "오류 가능성: 임원 보수 현황에 급여성 복리후생비 항목이 기재되어 있지 않은 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1668,
+        "outputTokens": 919
+      },
+      "elapsedMs": 16525
+    }
+  },
+  {
+    "file": "푸른물관리공단_직원평균보수.pdf",
+    "result": {
+      "fileName": "푸른물관리공단_직원평균보수.pdf",
+      "institution": "푸른물관리공단",
+      "itemType": "직원평균보수",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준",
+          "location": "1쪽"
+        },
+        {
+          "label": "직원 1인당 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기본급",
+          "value": "50,982",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 항목별 수당",
+          "value": "5,188",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 경영평가 성과급",
+          "value": "8,114",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기타 성과상여금",
+          "value": "1,878",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기본급",
+          "value": "46,031",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 항목별 수당",
+          "value": "6,734",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 경영평가 성과급",
+          "value": "11,652",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기타 성과상여금",
+          "value": "3,473",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기본급",
+          "value": "43,265",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 항목별 수당",
+          "value": "3,095",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 경영평가 성과급",
+          "value": "6,299",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기타 성과상여금",
+          "value": "1,564",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기본급",
+          "value": "49,219",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 항목별 수당",
+          "value": "5,613",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 경영평가 성과급",
+          "value": "6,666",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기타 성과상여금",
+          "value": "3,123",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기본급",
+          "value": "49,658",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 항목별 수당",
+          "value": "4,883",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 경영평가 성과급",
+          "value": "6,604",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기타 성과상여금",
+          "value": "3,988",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(남성)",
+          "value": "64,813천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(여성)",
+          "value": "57,949천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "신입직원 평균보수",
+          "value": "37,263천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(남성)",
+          "value": "11.2년",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(여성)",
+          "value": "10.7년",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "C-1",
+          "message": "오류 가능성: 직원 1인당 보수 현황은 5개년 자료가 있으나, 성별 평균 보수·평균근속연수와 신입직원 평균보수는 각각 단일 값만 기재되어 있어 최근 5년간 자료가 충분히 공시되지 않은 것으로 보입니다. 해당 항목의 과거 자료를 공시하지 않은 사유도 확인되지 않습니다.",
+          "confidence": "중간",
+          "evidence": {
+            "quote": "직원 평균보수 공시",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1783,
+        "outputTokens": 1364
+      },
+      "elapsedMs": 22982
+    }
+  },
+  {
+    "file": "미래철도공사_임원연봉.pdf",
+    "result": {
+      "fileName": "미래철도공사_임원연봉.pdf",
+      "institution": "미래철도공사",
+      "itemType": "임원연봉",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준 (2026년은 예산기준)",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기본급(기본연봉)",
+          "value": "133,956",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 항목별 수당",
+          "value": "8,550",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 급여성 복리후생비",
+          "value": "7,746",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 경영평가 성과급",
+          "value": "34,406",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기타 성과상여금",
+          "value": "6,531",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기본급(기본연봉)",
+          "value": "149,145",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 항목별 수당",
+          "value": "9,182",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 급여성 복리후생비",
+          "value": "5,645",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 경영평가 성과급",
+          "value": "36,179",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기타 성과상여금",
+          "value": "8,358",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기본급(기본연봉)",
+          "value": "121,620",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 항목별 수당",
+          "value": "9,504",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 급여성 복리후생비",
+          "value": "8,158",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 경영평가 성과급",
+          "value": "33,522",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기타 성과상여금",
+          "value": "7,588",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원의 성별 평균보수 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "남성 평균보수",
+          "value": "142,904",
+          "location": "1쪽"
+        },
+        {
+          "label": "여성 평균보수",
+          "value": "159,979",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "C-1",
+          "message": "오류 가능성: 공시 기간은 2021년~2025년으로 표시되어 있으나, 보수 현황에는 연도별 자료 구분이 없어 최근 5년간의 자료가 모두 공시되었는지 확인하기 어려운 것으로 보입니다. 확인되지 않는 기간의 자료에 대한 미공시 사유도 기재되지 않은 것으로 보입니다.",
+          "confidence": "중간",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1704,
+        "outputTokens": 1192
+      },
+      "elapsedMs": 20857
+    }
+  },
+  {
+    "file": "미래철도공사_직원평균보수.pdf",
+    "result": {
+      "fileName": "미래철도공사_직원평균보수.pdf",
+      "institution": "미래철도공사",
+      "itemType": "직원평균보수",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준",
+          "location": "1쪽"
+        },
+        {
+          "label": "직원 1인당 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기본급",
+          "value": "49,934",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 항목별 수당",
+          "value": "5,454",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 경영평가 성과급",
+          "value": "8,318",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기타 성과상여금",
+          "value": "2,237",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기본급",
+          "value": "49,031",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 항목별 수당",
+          "value": "3,898",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 경영평가 성과급",
+          "value": "10,385",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기타 성과상여금",
+          "value": "2,904",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기본급",
+          "value": "46,232",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 항목별 수당",
+          "value": "6,382",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 경영평가 성과급",
+          "value": "10,283",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기타 성과상여금",
+          "value": "1,262",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기본급",
+          "value": "50,079",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 항목별 수당",
+          "value": "4,332",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 경영평가 성과급",
+          "value": "8,923",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기타 성과상여금",
+          "value": "3,948",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기본급",
+          "value": "48,684",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 항목별 수당",
+          "value": "4,401",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 경영평가 성과급",
+          "value": "10,903",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기타 성과상여금",
+          "value": "1,704",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(남성)",
+          "value": "67,313천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "신입직원 평균보수",
+          "value": "34,550천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(남성)",
+          "value": "14.2년",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(여성)",
+          "value": "8.3년",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "R11-2",
+          "message": "오류 가능성: 직원 1인당 평균 보수에 남성 보수만 기재되어 있어, 여성 평균 보수가 누락된 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "직원 1인당 평균 보수",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1749,
+        "outputTokens": 1070
+      },
+      "elapsedMs": 12934
+    }
+  },
+  {
+    "file": "바른주택공사_임원연봉.pdf",
+    "result": {
+      "fileName": "바른주택공사_임원연봉.pdf",
+      "institution": "바른주택공사",
+      "itemType": "임원연봉",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준 (2026년은 예산기준)",
+          "location": "1쪽"
+        },
+        {
+          "label": "단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기본급(기본연봉)",
+          "value": "120,505",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 항목별 수당",
+          "value": "8,556",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 급여성 복리후생비",
+          "value": "6,996",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 경영평가 성과급",
+          "value": "28,991",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기타 성과상여금",
+          "value": "3,598",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기본급(기본연봉)",
+          "value": "131,004",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 항목별 수당",
+          "value": "9,076",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 급여성 복리후생비",
+          "value": "3,949",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 경영평가 성과급",
+          "value": "35,568",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기타 성과상여금",
+          "value": "2,839",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기본급(기본연봉)",
+          "value": "120,786",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 항목별 수당",
+          "value": "13,036",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 급여성 복리후생비",
+          "value": "5,544",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 경영평가 성과급",
+          "value": "24,993",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기타 성과상여금",
+          "value": "2,768",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "R10-6",
+          "message": "오류 가능성: 임원의 성별 평균보수가 기재되어 있지 않은 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1636,
+        "outputTokens": 817
+      },
+      "elapsedMs": 12063
+    }
+  },
+  {
+    "file": "바른주택공사_직원평균보수.pdf",
+    "result": {
+      "fileName": "바른주택공사_직원평균보수.pdf",
+      "institution": "바른주택공사",
+      "itemType": "직원평균보수",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준",
+          "location": "1쪽"
+        },
+        {
+          "label": "직원 1인당 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기본급",
+          "value": "46,868",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 항목별 수당",
+          "value": "6,916",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 경영평가 성과급",
+          "value": "6,165",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기타 성과상여금",
+          "value": "3,132",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기본급",
+          "value": "41,524",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 항목별 수당",
+          "value": "5,983",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 경영평가 성과급",
+          "value": "7,576",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기타 성과상여금",
+          "value": "1,523",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기본급",
+          "value": "46,713",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 항목별 수당",
+          "value": "3,591",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 경영평가 성과급",
+          "value": "7,887",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기타 성과상여금",
+          "value": "2,996",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기본급",
+          "value": "49,650",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 항목별 수당",
+          "value": "3,543",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 경영평가 성과급",
+          "value": "6,797",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기타 성과상여금",
+          "value": "3,172",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기본급",
+          "value": "51,672",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 항목별 수당",
+          "value": "6,963",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 경영평가 성과급",
+          "value": "7,052",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기타 성과상여금",
+          "value": "2,335",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(남성)",
+          "value": "64,196천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(여성)",
+          "value": "61,763천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(남성)",
+          "value": "11.4년",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(여성)",
+          "value": "8.6년",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "R11-4",
+          "message": "오류 가능성: 신입직원 평균보수가 기재되지 않은 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "직원 평균보수 공시",
+            "location": "1쪽"
+          }
+        },
+        {
+          "ruleId": "C-1",
+          "message": "오류 가능성: 보수 항목별 자료는 5개년으로 제시되어 있으나, 남성·여성별 평균 보수와 평균근속연수는 각각 단일 값만 제시되어 최근 5년간의 자료가 누락된 것으로 보입니다. 해당 기간의 자료를 공시하지 못한 사유도 기재되지 않은 것으로 보입니다.",
+          "confidence": "중간",
+          "evidence": {
+            "quote": "직원 1인당 평균 보수",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1751,
+        "outputTokens": 1294
+      },
+      "elapsedMs": 17176
+    }
+  },
+  {
+    "file": "누리항공공사_임원연봉.pdf",
+    "result": {
+      "fileName": "누리항공공사_임원연봉.pdf",
+      "institution": "누리항공공사",
+      "itemType": "임원연봉",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2026년 6월 30일 기준",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기본급(기본연봉)",
+          "value": "123,382",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 항목별 수당",
+          "value": "12,282",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 급여성 복리후생비",
+          "value": "7,429",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 기타",
+          "value": "3,056",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 성과상여금",
+          "value": "추출 불가",
+          "location": "[1쪽]"
+        },
+        {
+          "label": "상임이사 기본급(기본연봉)",
+          "value": "124,885",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 항목별 수당",
+          "value": "7,415",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 급여성 복리후생비",
+          "value": "6,704",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 기타",
+          "value": "6,288",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 성과상여금",
+          "value": "추출 불가",
+          "location": "[1쪽]"
+        },
+        {
+          "label": "상임감사 기본급(기본연봉)",
+          "value": "151,308",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 항목별 수당",
+          "value": "12,406",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 급여성 복리후생비",
+          "value": "4,461",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 기타",
+          "value": "3,152",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 성과상여금",
+          "value": "추출 불가",
+          "location": "[1쪽]"
+        },
+        {
+          "label": "임원의 성별 평균보수 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "남성 평균보수",
+          "value": "157,916",
+          "location": "1쪽"
+        },
+        {
+          "label": "여성 평균보수",
+          "value": "133,606",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "R10-4",
+          "message": "오류 가능성: 임원 보수 현황에 경영평가 성과급 항목이 누락된 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        },
+        {
+          "ruleId": "R10-7",
+          "message": "오류 가능성: 기준 시점이 6월 30일로 기재되어 있으며, 연도말 결산기준 또는 당해연도 예산기준이라는 표시가 없는 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "기준 시점: 2026년 6월 30일 기준",
+            "location": "1쪽"
+          }
+        },
+        {
+          "ruleId": "C-1",
+          "message": "오류 가능성: 공시 기간은 2021년부터 2025년까지로 표시되어 있으나, 보수 현황에는 연도 구분 없는 자료만 있어 최근 5년간의 자료가 모두 제시되었는지 확인하기 어려운 것으로 보입니다. 연도별 자료나 미공시 사유의 보완이 필요한 것으로 보입니다.",
+          "confidence": "중간",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1644,
+        "outputTokens": 1225
+      },
+      "elapsedMs": 17763
+    }
+  },
+  {
+    "file": "누리항공공사_직원평균보수.pdf",
+    "result": {
+      "fileName": "누리항공공사_직원평균보수.pdf",
+      "institution": "누리항공공사",
+      "itemType": "직원평균보수",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준",
+          "location": "1쪽"
+        },
+        {
+          "label": "직원 1인당 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기본급",
+          "value": "43,105",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 항목별 수당",
+          "value": "3,743",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 경영평가 성과급",
+          "value": "10,548",
+          "location": "1쪽"
+        },
+        {
+          "label": "2021년 기타 성과상여금",
+          "value": "2,759",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기본급",
+          "value": "43,756",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 항목별 수당",
+          "value": "4,664",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 경영평가 성과급",
+          "value": "10,182",
+          "location": "1쪽"
+        },
+        {
+          "label": "2022년 기타 성과상여금",
+          "value": "1,744",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기본급",
+          "value": "46,955",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 항목별 수당",
+          "value": "6,894",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 경영평가 성과급",
+          "value": "6,632",
+          "location": "1쪽"
+        },
+        {
+          "label": "2023년 기타 성과상여금",
+          "value": "1,993",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기본급",
+          "value": "48,841",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 항목별 수당",
+          "value": "6,720",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 경영평가 성과급",
+          "value": "11,314",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기타 성과상여금",
+          "value": "3,832",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기본급",
+          "value": "51,686",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 항목별 수당",
+          "value": "6,666",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 경영평가 성과급",
+          "value": "9,905",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기타 성과상여금",
+          "value": "1,019",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(남성)",
+          "value": "61,394천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(여성)",
+          "value": "60,892천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "신입직원 평균보수",
+          "value": "35,234천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(전체)",
+          "value": "11.8년",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "R11-3",
+          "message": "오류 가능성: 직원 평균근속연수가 전체 평균으로만 기재되어 있어, 남성·여성 구분이 누락된 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "직원 평균근속연수",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1747,
+        "outputTokens": 1064
+      },
+      "elapsedMs": 14345
+    }
+  },
+  {
+    "file": "가온에너지공단_임원연봉.pdf",
+    "result": {
+      "fileName": "가온에너지공단_임원연봉.pdf",
+      "institution": "가온에너지공단",
+      "itemType": "임원연봉",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-04-24",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2021년 ~ 2025년 (5개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준 (2026년은 예산기준)",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 항목별 수당",
+          "value": "7,514",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 급여성 복리후생비",
+          "value": "7,975",
+          "location": "1쪽"
+        },
+        {
+          "label": "기관장 경영평가 성과급",
+          "value": "28,284",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 항목별 수당",
+          "value": "9,987",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 급여성 복리후생비",
+          "value": "6,871",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임이사 경영평가 성과급",
+          "value": "20,775",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 항목별 수당",
+          "value": "11,190",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 급여성 복리후생비",
+          "value": "3,502",
+          "location": "1쪽"
+        },
+        {
+          "label": "상임감사 경영평가 성과급",
+          "value": "21,613",
+          "location": "1쪽"
+        },
+        {
+          "label": "임원의 성별 평균보수 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "남성 평균보수",
+          "value": "131,961",
+          "location": "1쪽"
+        },
+        {
+          "label": "여성 평균보수",
+          "value": "126,204",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "R10-1",
+          "message": "오류 가능성: 임원 보수 현황에 임원별 기본급(기본연봉)이 기재되지 않은 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        },
+        {
+          "ruleId": "R10-5",
+          "message": "오류 가능성: 임원 보수 현황에 기타 성과상여금 항목이 기재되지 않은 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        },
+        {
+          "ruleId": "C-1",
+          "message": "오류 가능성: 공시 기간은 2021년부터 2025년까지로 표시되어 있으나, 보수 현황에 연도별 구분 없이 한 묶음의 금액만 제시되어 있어 최근 5년간의 자료가 실제로 공시되었는지 확인하기 어려운 것으로 보입니다. 누락 기간에 대한 사유도 기재되지 않은 것으로 보입니다.",
+          "confidence": "중간",
+          "evidence": {
+            "quote": "임원 보수 현황",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1630,
+        "outputTokens": 1023
+      },
+      "elapsedMs": 16848
+    }
+  },
+  {
+    "file": "가온에너지공단_직원평균보수.pdf",
+    "result": {
+      "fileName": "가온에너지공단_직원평균보수.pdf",
+      "institution": "가온에너지공단",
+      "itemType": "직원평균보수",
+      "extracted": [
+        {
+          "label": "공시일",
+          "value": "2026-06-15",
+          "location": "1쪽"
+        },
+        {
+          "label": "공시 기간",
+          "value": "2024년 ~ 2025년 (2개년)",
+          "location": "1쪽"
+        },
+        {
+          "label": "기준 시점",
+          "value": "2025년 12월 31일 결산기준",
+          "location": "1쪽"
+        },
+        {
+          "label": "직원 1인당 보수 현황 단위",
+          "value": "천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기본급",
+          "value": "45,133",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 항목별 수당",
+          "value": "3,613",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 경영평가 성과급",
+          "value": "11,112",
+          "location": "1쪽"
+        },
+        {
+          "label": "2024년 기타 성과상여금",
+          "value": "1,030",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기본급",
+          "value": "43,343",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 항목별 수당",
+          "value": "6,710",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 경영평가 성과급",
+          "value": "8,887",
+          "location": "1쪽"
+        },
+        {
+          "label": "2025년 기타 성과상여금",
+          "value": "2,075",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(남성)",
+          "value": "66,892천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균 보수(여성)",
+          "value": "62,474천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "신입직원 평균보수",
+          "value": "34,798천원",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(남성)",
+          "value": "12.8년",
+          "location": "1쪽"
+        },
+        {
+          "label": "평균근속연수(여성)",
+          "value": "10.8년",
+          "location": "1쪽"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "C-1",
+          "message": "오류 가능성: 최근 5년이 아닌 2개년 자료만 공시되어 있으며, 나머지 기간의 자료를 공시하지 않은 사유가 기재되지 않은 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "공시 기간: 2024년 ~ 2025년 (2개년)",
+            "location": "1쪽"
+          }
+        },
+        {
+          "ruleId": "C-2",
+          "message": "오류 가능성: 공시일이 2026년 6월 15일로 기재되어 있어 매년 4월 말 정기공시 갱신 기한을 지키지 않은 것으로 보입니다.",
+          "confidence": "높음",
+          "evidence": {
+            "quote": "공시일: 2026-06-15",
+            "location": "1쪽"
+          }
+        }
+      ],
+      "model": "gpt-6-astra",
+      "status": "ok",
+      "usage": {
+        "inputTokens": 1661,
+        "outputTokens": 783
+      },
+      "elapsedMs": 11946
+    }
+  }
+]
