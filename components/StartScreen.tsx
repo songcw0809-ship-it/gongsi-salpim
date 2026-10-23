@@ -204,7 +204,7 @@ export default function StartScreen() {
     })();
   // 점검을 다시 시도하는 동안에는 요약이 사라지므로 패널도 함께 닫힌다
   const selectedRow = summary?.institutions.find((i) => i.institution === selected);
-  const detail = selectedRow ? buildDetail(selectedRow, nameOf) : null;
+  const detail = selectedRow ? buildDetail(selectedRow, nameOf, (key) => alioRows.some((r) => String(r.id) === key)) : null;
   const readyCount = rows.filter((r) => r.phase === "ready").length;
   const rejectedCount = rows.filter((r) => r.phase === "rejected").length;
 

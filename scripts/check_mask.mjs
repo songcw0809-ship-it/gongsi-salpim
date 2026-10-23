@@ -105,5 +105,18 @@ console.log("\n== 6. 원본은 그대로 (검증은 원본으로 한다)");
   check(original.extracted[0].value === "02-123-4567", "가려서 보여 줄 뿐 받은 결과 자체는 바꾸지 않음");
 }
 
+console.log("\n== 7. 알리오 공개 보고서는 가리지 않고, 올린 파일만 가린다");
+{
+  const alioInput = { id: 1, fileName: "공항(문의 02-123-4567).pdf", phase: "done", result: result([{ label: "담당자 연락처", value: "02-123-4567", location: "1쪽" }]), alio: { institutionName: "공항", itemName: "임직원 수", period: null, outcome: "checked" } };
+  const upload = { id: 2, fileName: "b.pdf", phase: "done", result: result([{ label: "담당자 연락처", value: "02-123-4567", location: "1쪽" }]) };
+  const rows = buildResultRows([alioInput, upload]);
+  check(rows[0].extracted[0].value === "02-123-4567" && rows[0].fileName.includes("02-123-4567") && rows[0].maskedCount === 0, "알리오 보고서의 값·파일 이름은 원문 그대로, 가린 수 0");
+  check(rows[1].extracted[0].value === MASK.phone && rows[1].maskedCount === 1, "직접 올린 파일은 지금처럼 가림");
+  const s2 = buildSummary([{ ...alioInput, result: result([], [f("오류 가능성: 담당 010-1234-5678 확인 필요.", "담당 hong@example.go.kr 현황")]) }]);
+  const d2 = buildDetail(s2.institutions[0], (k) => (k === "1" ? "공항(문의 02-123-4567).pdf" : k), (k) => k === "1");
+  const it = d2.groups[0].items[0];
+  check(it.message.includes("010-1234-5678") && it.quote.includes("hong@example.go.kr") && d2.groups[0].fileName.includes("02-123-4567") && d2.maskedCount === 0, "알리오 보고서의 상세(설명·인용문·파일 이름)도 가리지 않음");
+}
+
 console.log(failures === 0 ? "\n모두 통과" : `\n실패 ${failures}개`);
 process.exit(failures === 0 ? 0 : 1);
