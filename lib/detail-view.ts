@@ -50,12 +50,18 @@ export interface Detail {
  *
  * @param institution 기관별 요약의 한 줄 (lib/aggregate.ts 의 summarize 결과)
  * @param nameOf 파일 번호(문자열)를 화면에 보일 파일 이름으로 바꾸는 함수
+ * @param isPublic 알리오에 공개된 보고서의 파일 번호이면 true. 공개 자료는 가리지 않는다 (직접 올린 파일만 가림)
  */
-export function buildDetail(institution: InstitutionSummary, nameOf: (fileKey: string) => string): Detail {
+export function buildDetail(
+  institution: InstitutionSummary,
+  nameOf: (fileKey: string) => string,
+  isPublic: (fileKey: string) => boolean = () => false,
+): Detail {
   const groups: DetailGroup[] = [];
   let maskedCount = 0;
   /** 화면에 보일 글자를 가리고 가린 수를 센다 */
-  const mask = (text: string): string => {
+  const mask = (text: string, publicDoc: boolean): string => {
+    if (publicDoc) return text;
     const m = maskAll([text]);
     maskedCount += m.count;
     return m.texts[0] as string;
@@ -63,17 +69,18 @@ export function buildDetail(institution: InstitutionSummary, nameOf: (fileKey: s
   for (const { itemType, fileName, finding } of institution.findings) {
     const rule = findRule(finding.ruleId);
     if (!rule) continue;
+    const publicDoc = isPublic(fileName);
     const item: DetailItem = {
       ruleId: rule.id,
-      message: mask(finding.message),
+      message: mask(finding.message, publicDoc),
       confidence: finding.confidence,
       criterion: rule.criterion,
       source: rule.source,
-      quote: mask(finding.evidence.quote),
-      location: mask(finding.evidence.location),
+      quote: mask(finding.evidence.quote, publicDoc),
+      location: mask(finding.evidence.location, publicDoc),
     };
     // 파일 이름의 가림은 묶음을 새로 만들 때 한 번만 센다
-    const shown = maskAll([nameOf(fileName)]);
+    const shown = publicDoc ? { texts: [nameOf(fileName)], count: 0 } : maskAll([nameOf(fileName)]);
     const shownName = shown.texts[0] as string;
     const group = groups.find((g) => g.itemType === itemType && g.fileName === shownName);
     if (group) group.items.push(item);

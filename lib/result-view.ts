@@ -77,8 +77,12 @@ export interface ResultRow {
 /** 가리기 전의 줄 */
 type RawRow = Omit<ResultRow, "maskedCount">;
 
-/** 화면에 보일 글자 중 개인정보로 보이는 값(전화번호·이메일·주민등록번호 형태)을 가린다 */
-function maskRow(row: RawRow): ResultRow {
+/**
+ * 화면에 보일 글자 중 개인정보로 보이는 값(전화번호·이메일·주민등록번호 형태)을 가린다.
+ * 알리오에 공개된 보고서는 누구나 볼 수 있는 자료이므로 가리지 않는다(원문 대조가 쉽도록). 직접 올린 파일만 가린다.
+ */
+function maskRow(row: RawRow, isPublic: boolean): ResultRow {
+  if (isPublic) return { ...row, maskedCount: 0 };
   const m = maskAll([row.fileName, row.institution, row.itemType, row.note, ...row.extracted.flatMap((e) => [e.label, e.value, e.location])]);
   const [fileName, institution, itemType, note, ...rest] = m.texts;
   return {
@@ -209,5 +213,5 @@ export function buildResultRows(
     };
   };
 
-  return inputs.map((input) => maskRow(build(input)));
+  return inputs.map((input) => maskRow(build(input), Boolean(input.alio)));
 }
