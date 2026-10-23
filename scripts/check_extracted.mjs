@@ -33,7 +33,14 @@ check(boss.rows[2].cells.join() === "해당사항 없음,해당사항 없음,해
 check(s[2].rows[0].merged && s[2].rows[0].cells[0] === "추출 불가", "열 수와 안 맞는 값은 나누지 않고 한 칸에 그대로");
 check(s[2].rows[1].merged && s[2].rows[1].cells[0] === "1 2", "값의 수가 열 수와 맞지 않으면 짐작해서 나누지 않음");
 
-const flat = buildExtractedSections([f("기관명", "가"), f("공시 시기", "2026년 1/4분기"), f("총 인원", "10")]);
+const alt = buildExtractedSections([
+  f("상임감사 구분(아래 각 항목의 값 순서)", "2021년 결산 2022년 결산 2026년 예산"),
+  f("상임감사 기본급", "1 2 3"),
+  f("상임이사 구분", "2021년 결산 2022년 결산 2026년 예산"),
+]);
+check(alt[0].columns.join() === "2021년 결산,2022년 결산,2026년 예산" && alt[0].rows.length === 1 && alt[0].rows[0].cells.length === 3, "'구분(설명)'처럼 뒤에 글자가 붙은 구분 줄도 열 제목으로 씀");
+
+const flat =buildExtractedSections([f("기관명", "가"), f("공시 시기", "2026년 1/4분기"), f("총 인원", "10")]);
 check(flat.length === 1 && flat[0].title === "기본 정보" && flat[0].rows.length === 3 && flat[0].rows[1].label === "공시 시기", "묶음이 없으면 한 표, 한 번만 나온 첫 단어는 묶지 않음");
 check(buildExtractedSections([]).length === 0, "비어 있으면 표 없음");
 const one = buildExtractedSections([f("임원 구분", "2021년"), f("임원 기본급", "1 2")]);

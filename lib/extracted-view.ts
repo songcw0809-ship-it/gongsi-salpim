@@ -76,14 +76,14 @@ export function buildExtractedSections(fields: readonly ExtractedField[]): Extra
       entry = { section: { title, caption: null, columns: [], rows: [] }, pending: [] };
       byTitle.set(title, entry);
     }
-    if (title !== BASIC_TITLE && label === "구분") {
+    if (title !== BASIC_TITLE && label.startsWith("구분")) {
       const cols = parseColumns(f.value);
       if (cols.length > 0) {
         entry.section.columns = cols;
         continue;
       }
     }
-    if (title !== BASIC_TITLE && label === "단위") {
+    if (title !== BASIC_TITLE && label.startsWith("단위")) {
       entry.section.caption = `단위: ${f.value.trim()}`;
       continue;
     }
