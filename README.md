@@ -2,6 +2,7 @@
 
 공공기관 경영공시 보고서를 **통합공시 기준과 AI로 대조**해, 오류가 의심되는 항목을 기관별로 보여 주는 점검 도구입니다. 재정경제부 공공정책국 경영관리과에서 공공기관 경영공시를 점검하는 담당자를 위해 만들었습니다. **최종 판단은 담당자가 하며, 앱은 파일을 고치거나 기관에 연락하지 않습니다.**
 
+- **배포 주소: https://gongsi-salpim.vercel.app** · 저장소: https://github.com/songcw0809-ship-it/gongsi-salpim
 - 기획서: [PRD.md](PRD.md) · 개발 계획: [PLAN.md](PLAN.md) · 설계: [DESIGN.md](DESIGN.md) · 점검 결과와 남은 일: [CHECK.md](CHECK.md)
 
 ## 무엇을 하나요
