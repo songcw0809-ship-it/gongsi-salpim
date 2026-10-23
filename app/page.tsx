@@ -55,11 +55,11 @@ export default function Home() {
           <div className="col-span-2 rounded-[28px] bg-[#fbbf24] p-5 shadow-[0_14px_30px_rgba(180,120,0,0.25)]">
             <p className="text-sm font-bold text-[#3b2a00]">점검 기준으로 대조하는 항목</p>
             <p className="mt-2 flex items-end gap-3 text-[#2b1d00]">
-              <span className="text-5xl font-extrabold leading-none tracking-tight">2</span>
+              <span className="num text-5xl font-extrabold leading-none tracking-tight">9</span>
               <span className="pb-1 text-sm font-semibold leading-snug">
-                임원 연봉 · 직원 평균보수
+                임원 연봉 · 직원 평균보수 ·
                 <br />
-                (통합공시 기준 별표 1)
+                임직원 수 등 (통합공시 기준 별표 1)
               </span>
             </p>
           </div>
