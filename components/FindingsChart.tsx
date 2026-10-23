@@ -3,9 +3,9 @@ import { buildFindingBars } from "@/lib/chart-data";
 import type { Summary } from "@/lib/types";
 
 const LEVELS = [
-  { key: "high", label: "신뢰도 높음", color: "#ef4444" },
-  { key: "mid", label: "중간", color: "#fbbf24" },
-  { key: "low", label: "낮음", color: "#94a3b8" },
+  { key: "high", label: "신뢰도 높음", color: "#e07a5f" },
+  { key: "mid", label: "중간", color: "#f2a65a" },
+  { key: "low", label: "낮음", color: "#9bbf8a" },
 ] as const;
 
 export default function FindingsChart({ summary }: { summary: Summary }) {

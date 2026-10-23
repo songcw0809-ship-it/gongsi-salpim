@@ -32,10 +32,10 @@ function badgeClass(state: ResultRow["state"]): string {
 }
 
 const STATUS_COLOR = {
-  done: "#22c55e",
-  "waiting-criteria": "#fbbf24",
+  done: "#1f7a6d",
+  "waiting-criteria": "#f2a65a",
   none: "#cbd5e1",
-  problem: "#ef4444",
+  problem: "#e07a5f",
   progress: "#0f172a",
 } as const;
 
