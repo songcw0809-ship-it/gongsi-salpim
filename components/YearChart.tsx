@@ -3,7 +3,9 @@
 import type { YearChart } from "@/lib/chart-data";
 
 /** 항목 색 (파란색은 쓰지 않고 따뜻한 색 위주) */
-const COLORS = ["#1f7a6d", "#f2a65a", "#e07a5f", "#9bbf8a", "#b79b86", "#c9bfd1"];
+const COLORS = ["#2563eb", "#22b8f0", "#f97316", "#22c55e", "#ef4444", "#94a3b8"];
+/** 막대 위쪽을 살짝 밝게 해서 입체감을 준다 */
+const LIGHT = ["#5b8cf5", "#6fd0f7", "#fb9a4b", "#5ddb8c", "#f57373", "#b6c0cf"];
 
 const fmt = (n: number) => n.toLocaleString("ko-KR");
 
@@ -31,21 +33,34 @@ export default function YearChartView({ chart, title }: { chart: YearChart; titl
   const barW = Math.min(64, slot * 0.58);
 
   return (
-    <figure className="mb-1 mt-3 rounded-2xl bg-[#fff8e6]/60 p-4">
-      <figcaption className="mb-1 flex flex-wrap items-baseline gap-2 text-sm font-bold text-[var(--ink)]">
+    <figure className="chart-card mb-1 mt-3">
+      <figcaption className="mb-2 flex flex-wrap items-center gap-2.5 text-sm font-bold text-[var(--ink)]">
+        <span className="chart-tile" aria-hidden>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#2563eb">
+            <rect x="1" y="8" width="3.5" height="7" rx="1" />
+            <rect x="6.2" y="3" width="3.5" height="12" rx="1" />
+            <rect x="11.4" y="6" width="3.5" height="9" rx="1" />
+          </svg>
+        </span>
         {title} · 연도별 {stacked ? "구성과 합계" : "비교"}
         {chart.unit && <span className="text-xs font-medium text-[var(--muted)]">단위: {chart.unit}</span>}
       </figcaption>
       <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title} 연도별 그래프`} className="h-auto w-full">
         <defs>
+          {COLORS.map((c, i) => (
+            <linearGradient key={c} id={`bar-grad-${i}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={LIGHT[i]} />
+              <stop offset="100%" stopColor={c} />
+            </linearGradient>
+          ))}
           <pattern id="budget-stripe" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <rect width="3" height="6" fill="rgba(255,255,255,0.5)" />
+            <rect width="3" height="6" fill="rgba(255,255,255,0.55)" />
           </pattern>
         </defs>
         {[0.25, 0.5, 0.75, 1].map((g) => (
-          <line key={g} x1={padL} x2={W - padR} y1={y(maxVal * g)} y2={y(maxVal * g)} stroke="#eadfc8" strokeDasharray="2 5" />
+          <line key={g} x1={padL} x2={W - padR} y1={y(maxVal * g)} y2={y(maxVal * g)} stroke="#dde3ee" strokeDasharray="2 5" />
         ))}
-        <line x1={padL} x2={W - padR} y1={y(0)} y2={y(0)} stroke="#d9cdb2" />
+        <line x1={padL} x2={W - padR} y1={y(0)} y2={y(0)} stroke="#cbd3e1" />
         {chart.years.map((year, i) => {
           const cx = padL + slot * i + slot / 2;
           const label = year.replace(/\s*(결산|예산)\s*$/, "");
@@ -67,13 +82,13 @@ export default function YearChartView({ chart, title }: { chart: YearChart; titl
                       acc += v;
                       return (
                         <g key={s.label}>
-                          <rect x={cx - barW / 2} y={top} width={barW} height={Math.max(h, 0)} fill={COLORS[si % COLORS.length]} stroke="#fffaf0" strokeWidth={1.5} />
+                          <rect x={cx - barW / 2} y={top} width={barW} height={Math.max(h, 0)} fill={`url(#bar-grad-${si % COLORS.length})`} stroke="#ffffff" strokeWidth={1.5} />
                           {chart.budget[i] && <rect x={cx - barW / 2} y={top} width={barW} height={Math.max(h, 0)} fill="url(#budget-stripe)" />}
                         </g>
                       );
                     })}
                   </g>
-                  <text x={cx} y={y(Math.max(stackTotals[i], acc)) - 7} textAnchor="middle" fontSize="12" fontWeight="800" fill="#134e44">
+                  <text x={cx} y={y(Math.max(stackTotals[i], acc)) - 7} textAnchor="middle" fontSize="12" fontWeight="800" fill="#0f172a">
                     {fmt(stackTotals[i])}
                   </text>
                 </>
@@ -85,7 +100,7 @@ export default function YearChartView({ chart, title }: { chart: YearChart; titl
                   const x = cx - barW / 2 + si * w;
                   return (
                     <g key={s.label}>
-                      <rect x={x + 1} y={y(v)} width={Math.max(w - 2, 2)} height={Math.max(y(0) - y(v), 0)} fill={COLORS[si % COLORS.length]} rx={4} />
+                      <rect x={x + 1} y={y(v)} width={Math.max(w - 2, 2)} height={Math.max(y(0) - y(v), 0)} fill={`url(#bar-grad-${si % COLORS.length})`} rx={4} />
                       {chart.budget[i] && <rect x={x + 1} y={y(v)} width={Math.max(w - 2, 2)} height={Math.max(y(0) - y(v), 0)} fill="url(#budget-stripe)" />}
                       {k <= 2 && (
                         <text x={x + w / 2} y={y(v) - 6} textAnchor="middle" fontSize="11" fontWeight="700" fill="#0f172a">
@@ -99,7 +114,7 @@ export default function YearChartView({ chart, title }: { chart: YearChart; titl
               <text x={cx} y={H - 24} textAnchor="middle" fontSize="12" fontWeight="700" fill="#334155">
                 {label}
               </text>
-              <text x={cx} y={H - 9} textAnchor="middle" fontSize="11" fill={chart.budget[i] ? "#c2410c" : "#64748b"} fontWeight={chart.budget[i] ? 700 : 500}>
+              <text x={cx} y={H - 9} textAnchor="middle" fontSize="11" fill={chart.budget[i] ? "#2563eb" : "#6b7280"} fontWeight={chart.budget[i] ? 700 : 500}>
                 {kind}
               </text>
             </g>
@@ -113,7 +128,7 @@ export default function YearChartView({ chart, title }: { chart: YearChart; titl
             {s.label}
           </li>
         ))}
-        {chart.budget.some(Boolean) && <li className="text-[#c2410c]">줄무늬 = 예산(확정 전)</li>}
+        {chart.budget.some(Boolean) && <li className="font-semibold text-[#2563eb]">줄무늬 = 예산(확정 전)</li>}
       </ul>
       {chart.mismatch && <p className="mt-1 text-xs text-[var(--muted)]">※ 쌓은 항목의 합이 표의 합계와 다를 수 있어 합계는 표의 값을 그대로 적었습니다.</p>}
     </figure>

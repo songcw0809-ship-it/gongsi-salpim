@@ -32,10 +32,10 @@ function badgeClass(state: ResultRow["state"]): string {
 }
 
 const STATUS_COLOR = {
-  done: "#1f7a6d",
-  "waiting-criteria": "#f2a65a",
+  done: "#2563eb",
+  "waiting-criteria": "#22b8f0",
   none: "#cbd5e1",
-  problem: "#e07a5f",
+  problem: "#ef4444",
   progress: "#0f172a",
 } as const;
 
@@ -44,11 +44,11 @@ function StatusBar({ states }: { states: readonly string[] }) {
   const parts = countStatuses(states);
   const total = states.length;
   return (
-    <div className="rounded-2xl bg-[#fff8e6]/60 p-4">
+    <div className="chart-card">
       <p className="mb-2 text-sm font-bold text-[var(--ink)]">
         점검 현황 <span className="font-medium text-[var(--muted)]">· 전체 {total}건</span>
       </p>
-      <div className="flex h-4 overflow-hidden rounded-full bg-white/80" role="img" aria-label={parts.map((p) => `${p.label} ${p.count}건`).join(", ")}>
+      <div className="flex h-3 overflow-hidden rounded-full bg-[#eef1f6]" role="img" aria-label={parts.map((p) => `${p.label} ${p.count}건`).join(", ")}>
         {parts.map((p) => (
           <span key={p.key} style={{ flex: p.count, background: STATUS_COLOR[p.key] }} className="h-full" />
         ))}

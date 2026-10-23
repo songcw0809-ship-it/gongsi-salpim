@@ -3,16 +3,16 @@ import { buildFindingBars } from "@/lib/chart-data";
 import type { Summary } from "@/lib/types";
 
 const LEVELS = [
-  { key: "high", label: "신뢰도 높음", color: "#e07a5f" },
-  { key: "mid", label: "중간", color: "#f2a65a" },
-  { key: "low", label: "낮음", color: "#9bbf8a" },
+  { key: "high", label: "신뢰도 높음", color: "#ef4444" },
+  { key: "mid", label: "중간", color: "#f97316" },
+  { key: "low", label: "낮음", color: "#22b8f0" },
 ] as const;
 
 export default function FindingsChart({ summary }: { summary: Summary }) {
   const bars = buildFindingBars(summary.institutions);
   if (bars.length === 0 || bars.every((b) => b.total === 0)) return null;
   return (
-    <figure className="rounded-2xl bg-[#fff8e6]/60 p-4">
+    <figure className="chart-card">
       <figcaption className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-bold text-[var(--ink)]">
         기관별 의심 항목 수
         <span className="flex flex-wrap gap-x-3 text-xs font-medium text-[var(--muted)]">
@@ -30,7 +30,7 @@ export default function FindingsChart({ summary }: { summary: Summary }) {
             <span className="truncate font-medium text-[var(--ink)]" title={b.institution}>
               {b.institution}
             </span>
-            <span className="flex h-5 overflow-hidden rounded-full bg-white/80" role="img" aria-label={`${b.institution} 의심 항목 ${b.total}건 (높음 ${b.high}, 중간 ${b.mid}, 낮음 ${b.low})`}>
+            <span className="flex h-3 overflow-hidden rounded-full bg-[#eef1f6]" role="img" aria-label={`${b.institution} 의심 항목 ${b.total}건 (높음 ${b.high}, 중간 ${b.mid}, 낮음 ${b.low})`}>
               <span className="flex h-full" style={{ width: `${b.percent}%` }}>
                 {[b.high, b.mid, b.low].map((v, i) =>
                   v > 0 ? <span key={i} style={{ flex: v, background: LEVELS[i].color }} className="h-full" /> : null,
