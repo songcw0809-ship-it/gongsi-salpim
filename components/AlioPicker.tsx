@@ -113,7 +113,7 @@ export default function AlioPicker({ disabled, onStart }: Props) {
           {itemsShown.length === 0 && <li className="px-3 py-2 text-sm text-zinc-500">찾는 항목이 없습니다</li>}
         </ul>
         <p className="text-xs text-zinc-500">
-          &ldquo;점검 기준 있음&rdquo;(임원 연봉·직원 평균보수)만 AI가 기준과 대조합니다. 나머지 항목은 보고서를 가져와 값만 뽑고 &ldquo;점검 기준 준비 중&rdquo;으로 표시합니다.
+          &ldquo;점검 기준 있음&rdquo; 항목만 AI가 통합공시 기준(별표 1)과 대조합니다. 나머지 항목은 보고서를 가져와 값만 뽑고 &ldquo;점검 기준 준비 중&rdquo;으로 표시합니다.
         </p>
         <details className="text-xs text-zinc-500">
           <summary className="cursor-pointer">가져올 수 없는 항목 {unavailable.length}개 (수시 보고서·게시판 등, 준비 중)</summary>
