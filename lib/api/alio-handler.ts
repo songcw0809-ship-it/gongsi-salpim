@@ -17,6 +17,7 @@ import { findFetchableItem } from "../alio/items.ts";
 import type { AlioCheckResponse, AlioInstitutionsResponse } from "../alio/api-types.ts";
 import { checkKnownReport } from "../check-file.ts";
 import { ALIO_MAX_INSTITUTIONS, ALIO_MAX_REQUESTS, ALIO_RATE_LIMIT } from "../limits.ts";
+import { isSameOrigin } from "./origin.ts";
 import { createRateLimiter } from "./rate-limit.ts";
 import type { RateLimiter } from "./rate-limit.ts";
 
@@ -62,6 +63,8 @@ export function createAlioHandlers(deps: AlioHandlerDeps = {}) {
     },
 
     async handleCheck(request: Request): Promise<Response> {
+      // 0. 다른 사이트에서 보낸 요청은 거절한다
+      if (!isSameOrigin(request)) return fail(403, "허용되지 않은 요청 출처");
       // 1. 요청 모양
       if (!request.headers.get("content-type")?.includes("application/json")) return fail(415, "요청은 JSON으로 보내야 함");
       const body: unknown = await request.json().catch(() => null);

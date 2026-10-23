@@ -9,10 +9,16 @@ import type { ExtractResult } from "../types";
  */
 export const MIN_TEXT_CHARS = 50;
 
+/** 쪽수 상한. 정상 공시 보고서는 이보다 훨씬 짧다. 너무 긴 파일을 전부 읽다가 서버가 멈추는 것을 막는다 */
+export const MAX_PDF_PAGES = 100;
+
 export async function extractPdf(data: Uint8Array): Promise<ExtractResult> {
   try {
     // pdf.js가 넘겨받은 버퍼를 비우므로 복사본을 쓴다.
     const pdf = await getDocumentProxy(new Uint8Array(data));
+    if (pdf.numPages > MAX_PDF_PAGES) {
+      return { status: "failed", reason: `PDF가 ${MAX_PDF_PAGES}쪽을 넘어 점검할 수 없음` };
+    }
     const { text } = await extractText(pdf, { mergePages: false });
 
     const units = text.map((t, i) => ({ location: `${i + 1}쪽`, text: t.trim() }));

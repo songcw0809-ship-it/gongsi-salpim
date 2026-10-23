@@ -13,19 +13,29 @@ import { createOpenAiClientFromEnv } from "../ai/openai.ts";
 import type { AiClient } from "../ai/analyze.ts";
 import { resolveModel } from "../ai/models.ts";
 import { checkFile } from "../check-file.ts";
-import { MAX_FILE_BYTES, MAX_FILE_LABEL } from "../limits.ts";
+import { CHECK_RATE_LIMIT, MAX_FILE_BYTES, MAX_FILE_LABEL } from "../limits.ts";
+import { isSameOrigin } from "./origin.ts";
+import { createRateLimiter } from "./rate-limit.ts";
+import type { RateLimiter } from "./rate-limit.ts";
 
 const ALLOWED_EXTENSIONS = [".pdf", ".xlsx"];
 
 /** 요청 본문에는 파일 말고도 모델 이름과 경계 문구가 실린다. 미리 거절할 때 그만큼 여유를 둔다. */
 const REQUEST_OVERHEAD_BYTES = 64 * 1024;
 
-const fail = (status: number, error: string) => Response.json({ error }, { status });
+const fail = (status: number, error: string, headers?: Record<string, string>) => Response.json({ error }, { status, headers });
+
+/** 서버 인스턴스 하나가 받아 주는 점검 요청 수 제한 (비용 방어선). 시험에서는 handleCheck 의 limiter 로 바꿔 끼운다 */
+const defaultLimiter = createRateLimiter(CHECK_RATE_LIMIT.max, CHECK_RATE_LIMIT.windowMs);
 
 export async function handleCheck(
   request: Request,
   getAi: () => AiClient = createOpenAiClientFromEnv,
+  limiter: RateLimiter = defaultLimiter,
 ): Promise<Response> {
+  // 0. 다른 사이트에서 보낸 요청은 거절한다
+  if (!isSameOrigin(request)) return fail(403, "허용되지 않은 요청 출처");
+
   // 1. 본문을 읽기 전에 크기부터 본다. 한도를 넘는 요청은 읽지 않는다.
   const declared = Number(request.headers.get("content-length"));
   if (Number.isFinite(declared) && declared > MAX_FILE_BYTES + REQUEST_OVERHEAD_BYTES) {
@@ -55,6 +65,12 @@ export async function handleCheck(
   const fileName = file.name.slice(-200);
   if (!ALLOWED_EXTENSIONS.some((ext) => fileName.toLowerCase().endsWith(ext))) {
     return fail(415, "PDF 또는 엑셀(.xlsx) 파일만 점검할 수 있음");
+  }
+
+  // 4-1. 짧은 시간 안의 요청 수 제한 (AI 비용 방어선). 형식이 맞는 요청만 센다
+  const turn = limiter.take();
+  if (!turn.ok) {
+    return fail(429, "요청이 너무 많음. 잠시 뒤 다시 시도해 주세요", { "retry-after": String(turn.retryAfterSeconds) });
   }
 
   // 5. AI 연결. 키가 없어도 위의 검사는 먼저 끝난다. 설정 내용은 밖으로 알리지 않는다.
