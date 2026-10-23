@@ -53,7 +53,7 @@ const alioLabel = (r: AlioRow) => `${r.institutionName} · ${r.item.name}`;
 /** 알리오 건을 결과 표·요약이 쓰는 모양으로 바꾼다 */
 function alioToView(r: AlioRow): ViewInput {
   const base = { id: r.id, fileName: alioLabel(r) };
-  const info = { institutionName: r.institutionName, itemName: r.item.name };
+  const info = { institutionName: r.institutionName, itemName: r.item.name, formNo: r.item.formNo ?? undefined, disclosureNo: r.response?.disclosureNo };
   if (r.phase === "waiting" || r.phase === "running") {
     return { ...base, phase: r.phase, alio: { ...info, period: null, outcome: "request-failed" } };
   }

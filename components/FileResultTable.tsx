@@ -63,7 +63,23 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
           <tbody>
             {rows.map((row) => (
               <tr key={row.id} className="border-b border-zinc-100 align-top dark:border-zinc-900">
-                <td className="max-w-[14rem] break-all py-2 pr-3">{row.fileName}</td>
+                <td className="max-w-[14rem] break-all py-2 pr-3">
+                  {row.fileName}
+                  {row.alioLinks && (row.alioLinks.itemUrl || row.alioLinks.pdfUrl) && (
+                    <span className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs font-medium">
+                      {row.alioLinks.itemUrl && (
+                        <a href={row.alioLinks.itemUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline dark:text-blue-300">
+                          알리오 항목 화면 ↗
+                        </a>
+                      )}
+                      {row.alioLinks.pdfUrl && (
+                        <a href={row.alioLinks.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline dark:text-blue-300">
+                          보고서 PDF 받기 ↗
+                        </a>
+                      )}
+                    </span>
+                  )}
+                </td>
                 <td className="py-2 pr-3">{row.institution}</td>
                 <td className="py-2 pr-3">{row.itemType}</td>
                 <td className="py-2 pr-3">

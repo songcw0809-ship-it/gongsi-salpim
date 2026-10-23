@@ -3,7 +3,7 @@
 //          의심 항목이 없으면 "발견된 의심 항목 없음" 문구를 보인다 (PRD 5번 M2).
 //
 // 이 파일은 일반 함수만 있어서 화면 없이 시험할 수 있다 (scripts/check_detail.mjs).
-import { findRule } from "./checklist.ts";
+import { findRule, fixHintFor } from "./checklist.ts";
 import { maskAll } from "./mask.ts";
 import { NO_FINDINGS_NOTE } from "./result-view.ts";
 import type { Confidence, InstitutionSummary } from "./types.ts";
@@ -20,6 +20,8 @@ export interface DetailItem {
   quote: string;
   /** 원문 위치. PDF는 쪽 번호, 엑셀은 시트명과 칸 주소 */
   location: string;
+  /** 어떻게 고치면 좋은지. 담당자가 기관에 보완을 요청할 때 참고하는 예시 (체크리스트에 고정된 문구) */
+  fix: { action: string; example: string } | null;
 }
 
 export interface DetailGroup {
@@ -78,6 +80,7 @@ export function buildDetail(
       source: rule.source,
       quote: mask(finding.evidence.quote, publicDoc),
       location: mask(finding.evidence.location, publicDoc),
+      fix: fixHintFor(rule.id) ?? null,
     };
     // 파일 이름의 가림은 묶음을 새로 만들 때 한 번만 센다
     const shown = publicDoc ? { texts: [nameOf(fileName)], count: 0 } : maskAll([nameOf(fileName)]);
