@@ -12,8 +12,8 @@ export default function Home() {
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-4 pb-32 pt-5 sm:px-6">
       {/* 위쪽 알약 모양 메뉴 */}
       <nav aria-label="바로가기" className="flex items-center justify-between gap-4 rounded-full bg-white/95 px-5 py-3 shadow-[0_10px_30px_rgba(40,80,150,0.12)]">
-        <span className="serif flex items-center gap-2 text-xl font-bold tracking-tight text-[var(--ink)]">
-          <span aria-hidden className="inline-block h-2.5 w-2.5 rounded-full bg-[var(--brand)]" />
+        <span className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-[var(--ink)]">
+          <span aria-hidden className="inline-block h-2.5 w-2.5 rounded-full bg-[var(--sun)]" />
           공시살핌
         </span>
         <ul className="hidden items-center gap-6 text-sm font-medium text-[var(--muted)] md:flex">
@@ -55,20 +55,20 @@ export default function Home() {
           <div className="col-span-2 rounded-[28px] bg-[#fbbf24] p-5 shadow-[0_14px_30px_rgba(180,120,0,0.25)]">
             <p className="text-sm font-bold text-[#3b2a00]">점검 기준으로 대조하는 항목</p>
             <p className="mt-2 flex items-end gap-3 text-[#2b1d00]">
-              <span className="text-5xl font-extrabold leading-none tracking-tight">2</span>
+              <span className="num text-5xl font-extrabold leading-none tracking-tight">9</span>
               <span className="pb-1 text-sm font-semibold leading-snug">
-                임원 연봉 · 직원 평균보수
+                임원 연봉 · 직원 평균보수 ·
                 <br />
-                (통합공시 기준 별표 1)
+                임직원 수 등 (통합공시 기준 별표 1)
               </span>
             </p>
           </div>
           <div className="rounded-[24px] bg-white/95 p-5 shadow-[0_10px_30px_rgba(40,80,150,0.1)]">
-            <p className="serif text-4xl font-bold leading-none text-[var(--ink)]">57</p>
+            <p className="num text-5xl font-extrabold leading-none text-[var(--ink)]">57</p>
             <p className="mt-2 text-xs font-semibold text-[var(--muted)]">알리오에서 가져올 수 있는 공시 항목</p>
           </div>
           <div className="rounded-[24px] bg-white/95 p-5 shadow-[0_10px_30px_rgba(40,80,150,0.1)]">
-            <p className="serif text-4xl font-bold leading-none text-[var(--ink)]">342</p>
+            <p className="num text-5xl font-extrabold leading-none text-[var(--ink)]">342</p>
             <p className="mt-2 text-xs font-semibold text-[var(--muted)]">고를 수 있는 기관 (본부 기준)</p>
           </div>
         </div>

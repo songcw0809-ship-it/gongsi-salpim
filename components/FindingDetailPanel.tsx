@@ -12,9 +12,9 @@ interface Props {
 }
 
 const CONFIDENCE_CLASS: Record<Confidence, string> = {
-  높음: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200",
-  중간: "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
-  낮음: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
+  높음: "bg-[#fdeaea] text-[#b3262c]",
+  중간: "bg-[#fff1d0] text-[#8a5a00]",
+  낮음: "bg-[#e5eeff] text-[#2b58b8]",
 };
 
 export default function FindingDetailPanel({ detail, onClose }: Props) {
@@ -92,8 +92,8 @@ export default function FindingDetailPanel({ detail, onClose }: Props) {
                     </dd>
                   </dl>
                   {item.fix && (
-                    <div className="rounded-md bg-blue-50 p-2.5 text-xs dark:bg-blue-950/40">
-                      <p className="font-medium text-blue-900 dark:text-blue-200">이렇게 고치면 좋습니다 (보완 요청 예시)</p>
+                    <div className="rounded-xl bg-amber-50 p-3 text-xs">
+                      <p className="font-bold text-amber-900">이렇게 고치면 좋습니다 (보완 요청 예시)</p>
                       <p className="mt-1">{item.fix.action}</p>
                       <p className="mt-1 text-zinc-600 dark:text-zinc-400">
                         예) <span className="font-mono">{item.fix.example}</span>

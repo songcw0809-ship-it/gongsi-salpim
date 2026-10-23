@@ -1,6 +1,7 @@
 // Design Ref: DESIGN.md §1.2 ③ — 기관별 요약 영역: 순위, 기관, 의심 항목, 신뢰도 높음, 업로드되지 않은 항목.
 // Plan SC: PLAN.md 12번 — 확인 우선순위와 순위 기준 표시. 의심 항목이 없으면 "이상 없음"이라 쓰지 않는다 (PRD 5번 M2).
 // 기관 이름을 누르면 상세 패널(PLAN 13번)이 열린다.
+import FindingsChart from "@/components/FindingsChart";
 import { maskText } from "@/lib/mask";
 import { NO_FINDINGS_NOTE } from "@/lib/result-view";
 import type { Summary } from "@/lib/types";
@@ -29,6 +30,8 @@ export default function InstitutionSummaryTable({ summary, nameOf, onSelect, unc
       </p>
       <p className="text-xs text-zinc-500">기관 이름을 누르면 의심 항목의 근거를 볼 수 있습니다.</p>
 
+      <FindingsChart summary={summary} />
+
       {institutions.length > 0 && (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[36rem] border-collapse text-left text-sm">
@@ -49,7 +52,7 @@ export default function InstitutionSummaryTable({ summary, nameOf, onSelect, unc
                     <button
                       type="button"
                       onClick={() => onSelect(inst.institution)}
-                      className="text-left font-medium text-blue-700 underline decoration-dotted underline-offset-2 dark:text-blue-300"
+                      className="text-left font-medium text-[var(--ink)] underline decoration-dotted underline-offset-2 dark:text-blue-300"
                     >
                       {inst.institution}
                     </button>

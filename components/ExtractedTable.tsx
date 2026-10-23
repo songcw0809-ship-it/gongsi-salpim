@@ -1,5 +1,7 @@
 // 추출한 항목·값을 알리오 보고서처럼 묶음별 표로 보인다 (lib/extracted-view.ts).
 // 읽기 쉽도록: 열 제목 강조, 예산 열 구분, 줄무늬·세로 구분선, 합계 줄 강조, 0은 흐리게, 긴 주석은 따로 상자로.
+import YearChartView from "@/components/YearChart";
+import { buildYearChart } from "@/lib/chart-data";
 import { buildExtractedSections } from "@/lib/extracted-view";
 import type { ExtractedRow, ExtractedSection } from "@/lib/extracted-view";
 import type { ExtractedField } from "@/lib/types";
@@ -11,7 +13,7 @@ const isZero = (v: string) => /^-?0(\.0+)?$/.test(v);
 function valueClass(v: string, budget: boolean, numeric: boolean): string {
   const tone = isEmptyValue(v) ? "text-zinc-400" : isZero(v) ? "text-zinc-400" : "";
   const align = numeric ? "text-right tabular-nums" : "";
-  const tint = budget ? "bg-amber-50/70 dark:bg-amber-950/20" : "";
+  const tint = budget ? "bg-[#f1f6ff]" : "";
   return `border-l border-zinc-100 px-4 py-2.5 dark:border-zinc-800 ${align} ${tone} ${tint}`;
 }
 
@@ -30,9 +32,9 @@ function RowView({ row, section }: { row: ExtractedRow; section: ExtractedSectio
   const total = row.kind === "total";
   const sub = row.kind === "sub";
   const rowClass = total
-    ? "border-t-2 border-zinc-300 bg-blue-50 font-semibold dark:border-zinc-600 dark:bg-blue-950/30"
-    : "border-t border-zinc-100 odd:bg-white even:bg-zinc-50/70 hover:bg-blue-50/60 dark:border-zinc-800 dark:odd:bg-transparent dark:even:bg-zinc-900/40 dark:hover:bg-blue-950/20";
-  const labelBg = total ? "bg-blue-50 dark:bg-blue-950/30" : "bg-inherit";
+    ? "border-t-2 border-zinc-300 bg-[#f1f5fb] font-semibold dark:border-zinc-600"
+    : "border-t border-zinc-100 odd:bg-white even:bg-zinc-50/70 hover:bg-[#f5f8ff] dark:border-zinc-800 dark:odd:bg-transparent dark:even:bg-zinc-900/40 dark:hover:bg-blue-950/20";
+  const labelBg = total ? "bg-[#f1f5fb]" : "bg-inherit";
   return (
     <tr className={rowClass}>
       <th
@@ -66,10 +68,19 @@ export default function ExtractedTable({ fields }: { fields: readonly ExtractedF
     <div className="flex flex-col gap-6">
       {sections.map((s) => (
         <section key={s.title} className="overflow-hidden rounded-lg border border-zinc-200 shadow-sm dark:border-zinc-800">
-          <header className="flex items-center gap-2 border-b border-zinc-200 border-l-4 border-l-blue-600 bg-zinc-50 px-4 py-2.5 dark:border-zinc-800 dark:bg-zinc-900">
+          <header className="flex items-center gap-2.5 border-b border-zinc-100 bg-[#f8fafc] px-4 py-3">
+            <span aria-hidden className="inline-block h-5 w-1.5 rounded-full bg-[var(--sun)]" />
             <h3 className="text-base font-bold">{s.title}</h3>
             {s.caption && <span className="rounded bg-zinc-200 px-1.5 py-0.5 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">{s.caption}</span>}
           </header>
+          {(() => {
+            const chart = buildYearChart(s);
+            return chart ? (
+              <div className="px-3 pt-1">
+                <YearChartView chart={chart} title={s.title} />
+              </div>
+            ) : null;
+          })()}
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               {s.columns.length > 0 && (
@@ -83,7 +94,7 @@ export default function ExtractedTable({ fields }: { fields: readonly ExtractedF
                         key={c}
                         scope="col"
                         className={`border-l border-zinc-200 px-4 py-2.5 text-right font-semibold whitespace-nowrap dark:border-zinc-700 ${
-                          isBudget(c) ? "bg-amber-100 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200" : ""
+                          isBudget(c) ? "bg-[#dbe8ff] text-[#1d4ed8]" : ""
                         }`}
                       >
                         {c}

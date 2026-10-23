@@ -3,6 +3,7 @@
 // Design Ref: DESIGN.md §1.2 ② — 파일별 결과 영역: 파일, 기관, 항목 종류, 상태, 추출한 값(보기).
 // Plan SC: PLAN.md 11번 — 추출한 항목·값 표 보기, 중복 파일 중 사용할 파일 고르기, 점검 실패 파일 다시 시도.
 import ExtractedTable from "@/components/ExtractedTable";
+import { countStatuses } from "@/lib/chart-data";
 import type { ResultRow } from "@/lib/result-view";
 
 interface Props {
@@ -19,7 +20,7 @@ function badgeClass(state: ResultRow["state"]): string {
     case "failed":
       return "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200";
     case "unchecked":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200";
+      return "bg-amber-100 text-amber-900";
     case "duplicate":
       return "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200";
     case "ready":
@@ -28,6 +29,40 @@ function badgeClass(state: ResultRow["state"]): string {
     default:
       return "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300";
   }
+}
+
+const STATUS_COLOR = {
+  done: "#2563eb",
+  "waiting-criteria": "#22b8f0",
+  none: "#cbd5e1",
+  problem: "#ef4444",
+  progress: "#0f172a",
+} as const;
+
+/** 점검 결과 상태를 한 줄 막대로 요약한다 */
+function StatusBar({ states }: { states: readonly string[] }) {
+  const parts = countStatuses(states);
+  const total = states.length;
+  return (
+    <div className="chart-card">
+      <p className="mb-2 text-sm font-bold text-[var(--ink)]">
+        점검 현황 <span className="font-medium text-[var(--muted)]">· 전체 {total}건</span>
+      </p>
+      <div className="flex h-3 overflow-hidden rounded-full bg-[#eef1f6]" role="img" aria-label={parts.map((p) => `${p.label} ${p.count}건`).join(", ")}>
+        {parts.map((p) => (
+          <span key={p.key} style={{ flex: p.count, background: STATUS_COLOR[p.key] }} className="h-full" />
+        ))}
+      </div>
+      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--muted)]">
+        {parts.map((p) => (
+          <li key={p.key} className="flex items-center gap-1.5">
+            <span aria-hidden className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: STATUS_COLOR[p.key] }} />
+            {p.label} <b className="text-[var(--ink)]">{p.count}</b>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }: Props) {
@@ -39,6 +74,7 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
       <h2 id="result-title" className="card-title">
         파일별 결과
       </h2>
+      {rows.length > 1 && <StatusBar states={rows.map((r) => r.state)} />}
       {masked > 0 && (
         <p role="status" className="rounded-md bg-zinc-50 px-3 py-2 text-xs text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
           개인정보로 보이는 값(전화번호·이메일·주민등록번호 형태) {masked}개를 가려서 보여 줍니다.
@@ -68,12 +104,12 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
                   {row.alioLinks && (row.alioLinks.itemUrl || row.alioLinks.pdfUrl) && (
                     <span className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs font-medium">
                       {row.alioLinks.itemUrl && (
-                        <a href={row.alioLinks.itemUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline dark:text-blue-300">
+                        <a href={row.alioLinks.itemUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--ink)] underline">
                           알리오 항목 화면 ↗
                         </a>
                       )}
                       {row.alioLinks.pdfUrl && (
-                        <a href={row.alioLinks.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline dark:text-blue-300">
+                        <a href={row.alioLinks.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--ink)] underline">
                           보고서 PDF 받기 ↗
                         </a>
                       )}
@@ -91,7 +127,7 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
                     <button
                       type="button"
                       onClick={() => onChoose(row)}
-                      className="mt-1 block text-xs font-medium text-blue-700 underline dark:text-blue-300"
+                      className="mt-1 block text-xs font-medium text-[var(--ink)] underline"
                     >
                       이 파일 사용
                     </button>
@@ -101,7 +137,7 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
                       type="button"
                       onClick={() => onRetry(row)}
                       disabled={retryingIds.has(row.id)}
-                      className="mt-1 block text-xs font-medium text-blue-700 underline disabled:opacity-40 dark:text-blue-300"
+                      className="mt-1 block text-xs font-medium text-[var(--ink)] underline disabled:opacity-40"
                     >
                       다시 시도
                     </button>
@@ -109,7 +145,7 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
                 </td>
                 <td className="min-w-[8rem] py-2">
                   {row.extracted.length > 0 ? (
-                    <a href={`#extracted-${row.id}`} className="text-xs font-medium text-blue-700 dark:text-blue-300">
+                    <a href={`#extracted-${row.id}`} className="text-xs font-medium text-[var(--ink)]">
                       {row.extracted.length}개 (아래 표)
                     </a>
                   ) : (

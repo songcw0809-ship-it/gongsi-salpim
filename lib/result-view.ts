@@ -6,16 +6,14 @@
 // 이 파일은 일반 함수만 있어서 화면 없이 시험할 수 있다 (scripts/check_results.mjs).
 import { organize, slotKey } from "./aggregate.ts";
 import type { AlioOutcome } from "./alio/api-types.ts";
-import { CHECKLIST } from "./checklist.ts";
+import { UPLOAD_ITEM_TYPES } from "./checklist.ts";
 import { alioItemUrl, alioPdfUrl } from "./alio/links.ts";
 import { maskAll } from "./mask.ts";
 import type { ItemType } from "./checklist.ts";
 import type { ClassifiedFile, ExtractedField, FileResult, FileState } from "./types.ts";
 
 /** 체크리스트가 알고 있는 항목 종류들 (lib/check-file.ts 의 ITEM_TYPES 와 같은 값. 그 파일은 서버 코드라 브라우저에서 못 가져온다) */
-export const ITEM_TYPES: readonly ItemType[] = [
-  ...new Set(CHECKLIST.map((r) => r.scope).filter((s): s is ItemType => s !== "공통")),
-];
+export const ITEM_TYPES: readonly ItemType[] = UPLOAD_ITEM_TYPES;
 
 /** 알리오에서 가져온 보고서 한 건의 정보 */
 export interface ViewAlio {

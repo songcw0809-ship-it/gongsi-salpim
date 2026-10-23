@@ -22,7 +22,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans-kr), "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
-  --font-serif: var(--font-serif-kr), "Batang", serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -167,6 +166,27 @@ body::after {
   background: #fbfdff;
 }
 
+/* 그래프 카드: 흰 바탕에 옅은 점 격자, 부드러운 테두리와 그림자 (참고 화면의 깔끔한 느낌) */
+.chart-card {
+  background-color: #ffffff;
+  background-image: radial-gradient(#d9dfe9 1px, transparent 1.2px);
+  background-size: 16px 16px;
+  border: 1px solid #e6eaf1;
+  border-radius: 22px;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 28px rgba(40, 70, 130, 0.07);
+}
+.chart-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.65rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(37, 99, 235, 0.14);
+}
+
 .badge-green {
   border-radius: 9999px;
   background: var(--leaf);
@@ -184,8 +204,10 @@ body::after {
   font-weight: 700;
 }
 
-.serif {
-  font-family: var(--font-serif);
+/* 숫자는 글자 폭이 같은 모양으로 */
+.num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 /* 체크박스·라디오를 둥글고 파랗게 */
