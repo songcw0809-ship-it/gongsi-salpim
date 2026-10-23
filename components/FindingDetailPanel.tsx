@@ -12,9 +12,9 @@ interface Props {
 }
 
 const CONFIDENCE_CLASS: Record<Confidence, string> = {
-  높음: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200",
-  중간: "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
-  낮음: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
+  높음: "bg-red-100 text-red-800",
+  중간: "bg-yellow-100 text-yellow-900",
+  낮음: "bg-blue-100 text-blue-800",
 };
 
 export default function FindingDetailPanel({ detail, onClose }: Props) {

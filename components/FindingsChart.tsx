@@ -4,8 +4,8 @@ import type { Summary } from "@/lib/types";
 
 const LEVELS = [
   { key: "high", label: "신뢰도 높음", color: "#ef4444" },
-  { key: "mid", label: "중간", color: "#f97316" },
-  { key: "low", label: "낮음", color: "#22b8f0" },
+  { key: "mid", label: "중간", color: "#facc15" },
+  { key: "low", label: "낮음", color: "#2563eb" },
 ] as const;
 
 export default function FindingsChart({ summary }: { summary: Summary }) {
