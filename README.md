@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 공공기관 공시살핌
 
-## Getting Started
+공공기관 경영공시 보고서를 **통합공시 기준과 AI로 대조**해, 오류가 의심되는 항목을 기관별로 보여 주는 점검 도구입니다. 재정경제부 공공정책국 경영관리과에서 공공기관 경영공시를 점검하는 담당자를 위해 만들었습니다. **최종 판단은 담당자가 하며, 앱은 파일을 고치거나 기관에 연락하지 않습니다.**
 
-First, run the development server:
+- 기획서: [PRD.md](PRD.md) · 개발 계획: [PLAN.md](PLAN.md) · 설계: [DESIGN.md](DESIGN.md) · 점검 결과와 남은 일: [CHECK.md](CHECK.md)
+
+## 무엇을 하나요
+
+1. **알리오에서 가져오기 (기본)**: 공시 항목(여러 개)과 기관(기관 유형·주무 부처로 조회, 한 번에 최대 10곳·20건)을 고르면, 앱이 [알리오](https://www.alio.go.kr)에서 그 기관들의 최신 보고서 PDF를 가져옵니다.
+2. **파일 올리기 (보조)**: 알리오에서 가져올 수 없는 자료는 PDF·엑셀(파일당 4MB 이하)을 직접 올려 같은 점검을 받습니다.
+3. **항목 추출**: 보고서의 항목과 값을 묶음별 표와 연도별 막대그래프로 보여 줍니다.
+4. **기준 대조**: 앱에 내장한 「공공기관의 통합공시에 관한 기준」(2025.12.30 개정) 별표 1 체크리스트와 AI로 대조해 **누락·기준 불일치가 의심되는 항목**을 찾습니다. 점검 기준이 있는 항목은 9개(임직원 수, 신규채용, 임원 연봉, 직원 평균보수, 기관장 업무추진비, 복리후생비, 일·가정 양립, 장애인 고용, 수입·지출)이며, 나머지 항목은 값만 뽑고 "점검 기준 준비 중"으로 표시합니다.
+5. **기관별 확인 우선순위**: 신뢰도 "높음" 지적이 많은 기관부터 순위를 보여 주고, 지적마다 근거 조항·원문 위치·신뢰도와 "이렇게 고치면 좋습니다" 보완 요청 예시를 함께 보여 줍니다.
+
+## AI가 지키는 규칙
+
+- 근거 조항과 원문 위치(원문에 실제로 있는 문구)를 대지 못하는 지적은 버립니다.
+- "오류입니다"라고 단정하지 않고 **"오류 가능성"과 신뢰도(높음·중간·낮음)**로 표현합니다.
+- 의심 항목이 없어도 "이상 없음"이라고 하지 않고 "발견된 의심 항목 없음, 담당자 확인 필요"로 표시합니다.
+- 읽지 못한 값은 지어내지 않고 "추출 불가"로, 스캔본은 "글자를 읽을 수 없음"으로 처리합니다.
+- 알리오에서 가져오지 못했거나 보고서가 없는 경우는 기관이 제출하지 않았다고 단정하지 않습니다.
+
+## 성능 (직접 만든 가짜 샘플 12개 기준)
+
+기관 6곳 × 항목 2종, 심은 오류 11개로 측정했습니다 ([docs/metrics-report.md](docs/metrics-report.md)).
+
+| 지표 | 목표 | 결과 (gpt-6.1-sol) |
+|---|---|---|
+| 오류 탐지율 | 90% 이상 | 100% (11/11) |
+| 오탐률 | 20% 이하 | 0% |
+| 근거 표시율 | 100% | 100% |
+| 우선순위 (상위 3곳 중 정답) | 2곳 이상 | 3곳 |
+| 처리 시간 (파일 1건) | 3분 이내 | 약 18초 |
+
+샘플은 가짜 보고서이므로 실제 보고서에서의 정확도는 다를 수 있습니다. 실제 알리오 보고서로는 정답지가 없어 오탐 여부만 확인했습니다.
+
+## 기술
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · OpenAI Responses API(허용 모델 `gpt-6.1-sol`, `gpt-6-luna`, `gpt-6-astra`) · `unpdf`(PDF)·`exceljs`(엑셀) 글자 추출 · `zod` 검증. 데이터베이스는 없으며 올린 파일과 결과는 저장하지 않습니다(새로고침하면 사라집니다).
+
+## 직접 실행하기
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env   # 또는 .env 파일을 직접 만들어 OPENAI_API_KEY 입력
+npm run dev            # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+필요한 환경변수는 서버에서만 읽습니다 (`NEXT_PUBLIC_`을 붙이지 않습니다).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| 이름 | 설명 |
+|---|---|
+| `OPENAI_API_KEY` | 필수. AI 점검에 쓰는 OpenAI 키 |
+| `OPENAI_MODEL` | 선택. 기본 모델(허용 목록 안에서만) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+점검 스크립트(AI 호출 없이 동작): `node scripts/check_items.mjs`, `node scripts/check_security.mjs` 등 `scripts/check_*.mjs`. `npm run lint`, `npm run build`로 린트·빌드를 확인합니다.
 
-## Learn More
+## 알아 두실 점
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 알리오 연동은 **공식 API가 아니라 알리오 화면이 쓰는 주소**를 서버가 호출합니다. 알리오가 화면을 바꾸면 가져오기가 멈출 수 있고, 자동 수집의 약관상 허용 여부는 확인하지 못했습니다.
+- 올린 파일과 알리오에서 가져온 보고서의 내용은 **외부 AI 서비스(OpenAI)로 전송**됩니다. 이 저장소의 샘플 파일은 모두 **가짜 기관·가짜 수치**이며, 실제 비공개 공시 자료는 올리지 마세요.
+- 로그인이 없으므로, 공개 주소로 운영하면 누구나 점검(=AI 비용)을 쓸 수 있습니다. 운영 시에는 접속 보호와 OpenAI 월 사용 한도를 설정하세요.
+- 점검 기준이 없는 항목(41개)과 수시 보고서·게시판 항목(36개)은 아직 점검하지 않습니다.
