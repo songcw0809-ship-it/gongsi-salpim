@@ -1,26 +1,196 @@
 @import "tailwindcss";
 
+/* 화면은 밝은 하늘색 한 가지 모양만 쓴다. dark: 로 시작하는 클래스는 쓰이지 않게 막아 둔다(운영체제가 어두운 모드여도 같은 모양). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #e6f0fd;
+  --foreground: #0f172a;
+  --ink: #0b1220;
+  --muted: #5b6b82;
+  --line: #dbe5f3;
+  --sky-top: #c6dcf8;
+  --sky-mid: #e0ecfc;
+  --sky-low: #f3f8ff;
+  --brand: #2563eb;
+  --sun: #fbbf24;
+  --leaf: #22c55e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-sans-kr), "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+  --font-serif: var(--font-serif-kr), "Batang", serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--sky-low);
 }
 
 body {
-  background: var(--background);
+  position: relative;
+  min-height: 100vh;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background: linear-gradient(180deg, var(--sky-top) 0, var(--sky-mid) 520px, var(--sky-low) 1100px);
+  background-attachment: scroll;
+  /* 한국어는 단어 중간에서 줄을 바꾸지 않는다 (긴 글자열은 칸을 넘지 않게 필요할 때만 자른다) */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 하늘의 구름과 아래쪽 풀밭 (장식) */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 640px;
+  pointer-events: none;
+  background:
+    radial-gradient(420px 120px at 12% 18%, rgba(255, 255, 255, 0.75), transparent 70%),
+    radial-gradient(520px 140px at 82% 8%, rgba(255, 255, 255, 0.7), transparent 70%),
+    radial-gradient(360px 100px at 60% 46%, rgba(255, 255, 255, 0.55), transparent 70%);
+}
+body::after {
+  content: "";
+  position: fixed;
+  left: -10vw;
+  right: -10vw;
+  bottom: -90px;
+  height: 160px;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 100% at 20% 100%, #86c46a 0, #6fae55 55%, transparent 56%),
+    radial-gradient(70% 100% at 75% 100%, #7cbc5f 0, #5f9f49 55%, transparent 56%);
+  opacity: 0.55;
+}
+
+::selection {
+  background: #bfdbfe;
+}
+
+/* ---- 공통 부품 ---- */
+.card {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  padding: 1.75rem;
+  box-shadow: 0 1px 2px rgba(15, 40, 90, 0.04), 0 14px 40px rgba(40, 80, 150, 0.1);
+}
+@media (max-width: 640px) {
+  .card {
+    padding: 1.25rem;
+    border-radius: 22px;
+  }
+}
+
+.card-title {
+  font-size: 1.375rem;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  border-radius: 9999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 9999px;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(11, 18, 32, 0.22);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #000;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(11, 18, 32, 0.28);
+}
+.btn-primary:disabled {
+  cursor: not-allowed;
+  background: #9aa7ba;
+  box-shadow: none;
+}
+
+.btn-ghost {
+  border-radius: 9999px;
+  background: #eef3fa;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: #e1eaf6;
+}
+
+.field {
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  background: #fff;
+  padding: 0.55rem 1rem;
+  font-size: 0.875rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.field:focus {
+  border-color: #93b4ee;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fbfdff;
+}
+
+.badge-green {
+  border-radius: 9999px;
+  background: var(--leaf);
+  color: #fff;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.badge-yellow {
+  border-radius: 9999px;
+  background: var(--sun);
+  color: #3b2a00;
+  padding: 0.1rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.serif {
+  font-family: var(--font-serif);
+}
+
+/* 체크박스·라디오를 둥글고 파랗게 */
+input[type="checkbox"] {
+  accent-color: var(--brand);
+  width: 1rem;
+  height: 1rem;
 }

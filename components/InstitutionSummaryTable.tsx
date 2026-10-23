@@ -20,8 +20,8 @@ export default function InstitutionSummaryTable({ summary, nameOf, onSelect, unc
   if (institutions.length === 0 && unassigned.length === 0 && uncheckedCount === 0) return null;
 
   return (
-    <section aria-labelledby="summary-title" className="flex flex-col gap-3 rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
-      <h2 id="summary-title" className="text-lg font-semibold">
+    <section aria-labelledby="summary-title" className="flex flex-col gap-3 card">
+      <h2 id="summary-title" className="card-title">
         기관별 요약
       </h2>
       <p className="text-sm text-zinc-600 dark:text-zinc-400">

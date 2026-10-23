@@ -65,9 +65,9 @@ export default function AlioPicker({ disabled, onStart }: Props) {
   const itemAllowed = canAddItem(sel);
 
   return (
-    <section aria-labelledby="alio-title" className="flex flex-col gap-5 rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+    <section aria-labelledby="alio-title" className="flex flex-col gap-5 card">
       <div>
-        <h2 id="alio-title" className="text-lg font-semibold">
+        <h2 id="alio-title" className="card-title">
           알리오에서 보고서 가져오기
         </h2>
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
@@ -77,16 +77,16 @@ export default function AlioPicker({ disabled, onStart }: Props) {
 
       {/* 공시 항목 */}
       <fieldset disabled={disabled} className="flex flex-col gap-2">
-        <legend className="text-sm font-medium">1. 공시 항목 (하나 이상)</legend>
+        <legend className="mb-1 text-sm font-bold text-[var(--ink)]"><span className="step-badge">1</span>공시 항목 (하나 이상)</legend>
         <input
           type="search"
           value={itemQuery}
           onChange={(e) => setItemQuery(e.target.value)}
           placeholder="항목 이름이나 번호로 찾기"
           aria-label="공시 항목 찾기"
-          className="w-full max-w-xs rounded-md border border-zinc-300 bg-background px-3 py-1.5 text-sm dark:border-zinc-700"
+          className="field w-full max-w-xs"
         />
-        <ul className="max-h-60 overflow-y-auto rounded-md border border-zinc-200 dark:border-zinc-800">
+        <ul className="max-h-60 overflow-y-auto panel overflow-hidden">
           {itemsShown.map((item) => {
             const checked = formNos.includes(item.formNo as string);
             const blockedHere = !checked && !itemAllowed.ok;
@@ -102,7 +102,7 @@ export default function AlioPicker({ disabled, onStart }: Props) {
                   <span className="w-10 shrink-0 text-xs text-zinc-500">{item.no}</span>
                   <span className="min-w-0 flex-1">{item.name}</span>
                   {item.checklist ? (
-                    <span className="shrink-0 rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-800 dark:bg-green-950 dark:text-green-200">점검 기준 있음</span>
+                    <span className="badge-green shrink-0">점검 기준 있음</span>
                   ) : (
                     <span className="shrink-0 text-xs text-zinc-400">값만 추출</span>
                   )}
@@ -129,7 +129,7 @@ export default function AlioPicker({ disabled, onStart }: Props) {
 
       {/* 기관 */}
       <fieldset disabled={disabled} className="flex flex-col gap-3">
-        <legend className="text-sm font-medium">2. 기관 (최대 {ALIO_MAX_INSTITUTIONS}곳)</legend>
+        <legend className="mb-1 text-sm font-bold text-[var(--ink)]"><span className="step-badge">2</span>기관 (최대 {ALIO_MAX_INSTITUTIONS}곳)</legend>
         {load.state === "loading" && <p className="text-sm text-zinc-500">알리오 기관 목록을 불러오는 중입니다…</p>}
         {load.state === "error" && (
           <div role="alert" className="flex flex-wrap items-center gap-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-800 dark:bg-red-950/40 dark:text-red-200">
@@ -176,7 +176,7 @@ export default function AlioPicker({ disabled, onStart }: Props) {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="기관 이름으로 찾기"
               aria-label="기관 찾기"
-              className="w-full max-w-xs rounded-md border border-zinc-300 bg-background px-3 py-1.5 text-sm dark:border-zinc-700"
+              className="field w-full max-w-xs"
             />
             <div className="flex items-center justify-between text-xs text-zinc-500">
               <span>
@@ -196,7 +196,7 @@ export default function AlioPicker({ disabled, onStart }: Props) {
                 </button>
               )}
             </div>
-            <ul className="max-h-64 overflow-y-auto rounded-md border border-zinc-200 dark:border-zinc-800">
+            <ul className="max-h-64 overflow-y-auto panel overflow-hidden">
               {filtered.map((inst) => {
                 const checked = instIds.includes(inst.id);
                 const blockedHere = !checked && !instAllowed.ok;
@@ -253,7 +253,7 @@ export default function AlioPicker({ disabled, onStart }: Props) {
             disabled={disabled || blocked !== null || load.state !== "ready"}
             title={blocked ?? undefined}
             onClick={() => onStart({ institutions: chosenInstitutions, items: chosenItems })}
-            className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background disabled:cursor-not-allowed disabled:opacity-40"
+            className="btn-primary"
           >
             알리오에서 가져와 점검{count > 0 ? ` (${count}건)` : ""}
           </button>
