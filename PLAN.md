@@ -1,4 +1,4 @@
-# 경영공시 AI 점검기 개발 계획 (PLAN)
+# 공공기관 공시살핌 개발 계획 (PLAN)
 
 기준 문서: [PRD.md](PRD.md) · 샘플 데이터: [docs/sample-data-plan.md](docs/sample-data-plan.md)
 
