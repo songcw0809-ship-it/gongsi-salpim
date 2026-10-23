@@ -35,8 +35,8 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
   const masked = rows.reduce((sum, r) => sum + r.maskedCount, 0);
 
   return (
-    <section aria-labelledby="result-title" className="flex flex-col gap-3 rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
-      <h2 id="result-title" className="text-lg font-semibold">
+    <section aria-labelledby="result-title" className="flex flex-col gap-3 card">
+      <h2 id="result-title" className="card-title">
         파일별 결과
       </h2>
       {masked > 0 && (
@@ -83,7 +83,7 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
                 <td className="py-2 pr-3">{row.institution}</td>
                 <td className="py-2 pr-3">{row.itemType}</td>
                 <td className="py-2 pr-3">
-                  <span className={`inline-block rounded px-1.5 py-0.5 text-xs ${badgeClass(row.state)}`}>
+                  <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${badgeClass(row.state)}`}>
                     {retryingIds.has(row.id) ? "점검 중" : row.stateLabel}
                   </span>
                   {row.note && <p className="mt-1 max-w-[16rem] text-xs text-zinc-600 dark:text-zinc-400">{row.note}</p>}

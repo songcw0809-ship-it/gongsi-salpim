@@ -34,18 +34,18 @@ export default function FindingDetailPanel({ detail, onClose }: Props) {
       <div aria-hidden className="fixed inset-0 z-10 bg-black/30 sm:bg-black/10" onClick={onClose} />
       <aside
         aria-label={`${detail.institution} 의심 항목 상세`}
-        className="fixed inset-y-0 right-0 z-20 flex w-full max-w-md flex-col gap-4 overflow-y-auto border-l border-zinc-200 bg-background p-5 shadow-xl dark:border-zinc-800"
+        className="fixed inset-y-3 right-3 z-20 flex w-[calc(100%-1.5rem)] max-w-md flex-col gap-4 overflow-y-auto rounded-[28px] bg-white p-6 shadow-[0_20px_60px_rgba(30,60,130,0.28)]"
       >
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold">{detail.institution}</h2>
+            <h2 className="card-title">{detail.institution}</h2>
             <p className="text-xs text-zinc-500">{detail.rank === null ? "순위에서 제외됨" : `확인 우선순위 ${detail.rank}위`}</p>
           </div>
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="rounded-md border border-zinc-300 px-2.5 py-1 text-sm dark:border-zinc-700"
+            className="btn-ghost"
           >
             닫기
           </button>
@@ -72,7 +72,7 @@ export default function FindingDetailPanel({ detail, onClose }: Props) {
               {group.items.map((item, i) => (
                 <li key={i} className="flex flex-col gap-2 rounded-lg border border-zinc-200 p-3 text-sm dark:border-zinc-800">
                   <div className="flex items-center gap-2">
-                    <span className={`rounded px-1.5 py-0.5 text-xs ${CONFIDENCE_CLASS[item.confidence]}`}>
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${CONFIDENCE_CLASS[item.confidence]}`}>
                       오류 가능성 · 신뢰도 {item.confidence}
                     </span>
                   </div>

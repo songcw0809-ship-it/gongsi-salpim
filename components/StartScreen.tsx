@@ -210,11 +210,11 @@ export default function StartScreen() {
 
   return (
     <div className="flex flex-col gap-8">
-      <section aria-labelledby="model-title" className="flex flex-col gap-1.5">
+      <section aria-labelledby="model-title" className="card flex flex-col gap-1.5">
         <h2 id="model-title" className="sr-only">
           AI 모델
         </h2>
-        <label htmlFor="model" className="text-sm font-medium">
+        <label htmlFor="model" className="text-sm font-bold text-[var(--ink)]">
           AI 모델
         </label>
         <select
@@ -222,7 +222,7 @@ export default function StartScreen() {
           value={model}
           onChange={(e) => setModel(e.target.value)}
           disabled={running}
-          className="w-full max-w-xs rounded-md border border-zinc-300 bg-background px-3 py-2 text-sm dark:border-zinc-700"
+          className="field w-full max-w-xs"
         >
           {MODELS.map((m) => (
             <option key={m.id} value={m.id}>
@@ -242,10 +242,10 @@ export default function StartScreen() {
 
       <section
         aria-labelledby="upload-title"
-        className="flex flex-col gap-5 rounded-lg border border-zinc-200 p-5 dark:border-zinc-800"
+        className="flex flex-col gap-5 card"
       >
         <div>
-          <h2 id="upload-title" className="text-lg font-semibold">
+          <h2 id="upload-title" className="card-title">
             공시 파일 올리기 <span className="text-sm font-normal text-zinc-500">(알리오에서 가져올 수 없는 자료용)</span>
           </h2>
           <p className="mt-1 text-xs text-zinc-500">파일로 올리면 기관명과 항목 종류를 AI가 읽어 분류합니다.</p>
@@ -263,7 +263,7 @@ export default function StartScreen() {
             setDragging(false);
             addFiles(e.dataTransfer.files);
           }}
-          className={`flex cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed px-4 py-10 text-center transition-colors ${
+          className={`flex cursor-pointer flex-col items-center justify-center gap-1 rounded-3xl border-2 border-dashed px-4 py-10 text-center transition-colors ${
             dragging
               ? "border-blue-500 bg-blue-50 dark:bg-blue-950/30"
               : "border-zinc-300 hover:border-zinc-400 dark:border-zinc-700"
@@ -300,7 +300,7 @@ export default function StartScreen() {
                   </span>
                   <span className="text-xs text-zinc-500">{formatSize(row.file.size)}</span>
                   <span
-                    className={`rounded px-1.5 py-0.5 text-xs ${
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                       row.phase === "rejected"
                         ? "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200"
                         : "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
@@ -324,7 +324,7 @@ export default function StartScreen() {
             type="button"
             onClick={start}
             disabled={running || readyCount === 0}
-            className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background disabled:cursor-not-allowed disabled:opacity-40"
+            className="btn-primary"
           >
             점검 시작{readyCount > 0 ? ` (${readyCount}개)` : ""}
           </button>
