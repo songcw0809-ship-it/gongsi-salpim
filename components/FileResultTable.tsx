@@ -17,6 +17,8 @@ function badgeClass(state: ResultRow["state"]): string {
     case "unreadable":
     case "failed":
       return "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200";
+    case "unchecked":
+      return "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200";
     case "duplicate":
       return "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200";
     case "ready":
@@ -44,7 +46,7 @@ export default function FileResultTable({ rows, onChoose, onRetry, retryingIds }
         <table className="w-full min-w-[40rem] border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-zinc-200 text-xs text-zinc-500 dark:border-zinc-800">
-              <th className="py-2 pr-3 font-medium">파일</th>
+              <th className="py-2 pr-3 font-medium">파일 · 보고서</th>
               <th className="py-2 pr-3 font-medium">기관</th>
               <th className="py-2 pr-3 font-medium">항목 종류</th>
               <th className="py-2 pr-3 font-medium">상태</th>

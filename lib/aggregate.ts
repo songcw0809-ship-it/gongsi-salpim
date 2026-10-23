@@ -168,11 +168,13 @@ const CONFIDENCES: Confidence[] = ["높음", "중간", "낮음"];
  * @param results 파일마다의 점검 결과 (lib/check-file.ts 의 FileResult)
  * @param requiredItemTypes 기관마다 올라와야 하는 항목 종류
  * @param choices 중복에서 담당자가 고른 파일. { [slotKey]: 파일 이름 }
+ * @param labels 화면에 보일 문구를 바꾼다. 알리오에서 가져온 경우 "업로드되지 않음" 대신 "알리오에서 보고서를 찾지 못함"을 쓴다
  */
 export function summarize(
   results: readonly FileResult[],
   requiredItemTypes: readonly ItemType[],
   choices: Readonly<Record<string, string>> = {},
+  labels: { notUploaded?: string } = {},
 ): Summary {
   const classified: ClassifiedFile[] = results.map((r) => ({
     fileName: r.fileName,
@@ -208,7 +210,7 @@ export function summarize(
     const missingItemTypes = g.slots.filter((s) => s.status === "missing").map((s) => s.itemType);
     const notes: string[] = [];
     if (g.hasUnresolvedDuplicate) notes.push("중복 선택 필요");
-    if (missingItemTypes.length > 0) notes.push(`${LABEL.notUploaded}: ${missingItemTypes.join(", ")}`);
+    if (missingItemTypes.length > 0) notes.push(`${labels.notUploaded ?? LABEL.notUploaded}: ${missingItemTypes.join(", ")}`);
 
     return {
       institution: g.institution,

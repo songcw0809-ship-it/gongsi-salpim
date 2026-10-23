@@ -1,9 +1,11 @@
 // Design Ref: DESIGN.md §1.2 ② — 파일별 결과 표에 보일 줄을 만든다.
 // Plan SC: PLAN.md 11번 — 기관·항목 종류·상태·추출한 값 표시, 중복 파일 중 사용할 파일 고르기, 점검 실패 다시 시도.
+//          PLAN.md 10번 — 알리오에서 가져온 보고서(점검 기준 준비 중·보고서 없음 포함)도 같은 표에 보인다.
 //
 // 같은 이름의 파일이 있어도 헷갈리지 않게 파일 이름이 아니라 화면의 파일 번호(id)로 중복을 따진다.
 // 이 파일은 일반 함수만 있어서 화면 없이 시험할 수 있다 (scripts/check_results.mjs).
 import { organize, slotKey } from "./aggregate.ts";
+import type { AlioOutcome } from "./alio/api-types.ts";
 import { CHECKLIST } from "./checklist.ts";
 import type { ItemType } from "./checklist.ts";
 import type { ClassifiedFile, ExtractedField, FileResult, FileState } from "./types.ts";
@@ -12,6 +14,17 @@ import type { ClassifiedFile, ExtractedField, FileResult, FileState } from "./ty
 export const ITEM_TYPES: readonly ItemType[] = [
   ...new Set(CHECKLIST.map((r) => r.scope).filter((s): s is ItemType => s !== "공통")),
 ];
+
+/** 알리오에서 가져온 보고서 한 건의 정보 */
+export interface ViewAlio {
+  institutionName: string;
+  /** 알리오 항목 이름. 예: "임직원 수" */
+  itemName: string;
+  /** 보고서의 연도·분기. 모르면 null */
+  period: string | null;
+  /** 알리오 가져오기 API의 결과. 서버에 연결하지 못해 결과를 못 받았으면 "request-failed" */
+  outcome: AlioOutcome | "request-failed";
+}
 
 /** 표를 만들 때 필요한 파일 한 개의 정보 (화면의 상태에서 뽑아 온다) */
 export interface ViewInput {
@@ -22,9 +35,18 @@ export interface ViewInput {
   result?: FileResult;
   /** phase 가 "error" 일 때의 이유 */
   reason?: string;
+  /** 알리오에서 가져온 보고서이면 그 정보. 기관·항목은 AI가 읽은 값이 아니라 알리오 목록으로 정해진 값이다 */
+  alio?: ViewAlio;
 }
 
-export type RowState = FileState | "waiting" | "running";
+/** 알리오 보고서 중 순위·지적 계산에 넣지 않는 것: 점검 기준이 없어 값만 뽑은 것, 보고서가 없는 것 */
+export function isAlioSkipped(input: ViewInput): boolean {
+  return (
+    input.phase === "done" && (input.alio?.outcome === "extracted-only" || input.alio?.outcome === "not-found")
+  );
+}
+
+export type RowState = FileState | "waiting" | "running" | "unchecked" | "not-found";
 
 export interface ResultRow {
   id: number;
@@ -58,6 +80,8 @@ const STATE_LABEL: Record<RowState, string> = {
   failed: "점검 실패",
   waiting: "대기",
   running: "점검 중",
+  unchecked: "점검 기준 준비 중",
+  "not-found": "보고서 없음",
 };
 
 function toClassified(input: ViewInput): ClassifiedFile {
@@ -85,28 +109,59 @@ export function findingsNote(result: FileResult): string {
 /**
  * 화면 상태에서 결과 표의 줄들을 만든다. 입력 순서를 그대로 지킨다.
  *
- * @param inputs 점검을 시작한 파일들
+ * @param inputs 점검을 시작한 파일들(알리오에서 가져온 보고서 포함)
  * @param choices 중복에서 담당자가 고른 파일. { [choiceKey]: 파일 번호(문자열) }
  */
 export function buildResultRows(
   inputs: readonly ViewInput[],
   choices: Readonly<Record<string, string>> = {},
 ): ResultRow[] {
-  const finished = inputs.filter((i) => i.phase === "done" || i.phase === "error");
+  const finished = inputs.filter((i) => (i.phase === "done" || i.phase === "error") && !isAlioSkipped(i));
   const organized = organize(finished.map(toClassified), ITEM_TYPES, choices);
   const stateById = new Map(finished.map((f, i) => [f.id, organized.files[i]]));
 
   return inputs.map((input): ResultRow => {
-    const org = stateById.get(input.id);
     const result = input.result;
+    const alio = input.alio;
+    const period = alio?.period ? `${alio.period} 보고서` : null;
 
+    // 알리오에서 가져왔지만 순위·지적 계산에 넣지 않는 보고서
+    if (alio && isAlioSkipped(input)) {
+      const state: RowState = alio.outcome === "not-found" ? "not-found" : "unchecked";
+      return {
+        id: input.id,
+        fileName: input.fileName,
+        institution: alio.institutionName,
+        itemType: alio.itemName,
+        state,
+        stateLabel: STATE_LABEL[state],
+        note:
+          state === "not-found"
+            ? "알리오에서 보고서를 찾지 못함 (해당하지 않는 항목이거나 아직 공시 전일 수 있으며, 기관이 제출하지 않았다는 뜻은 아닙니다)"
+            : [period, "이 항목은 내장 점검 기준이 없어 AI 대조를 하지 않았습니다. 순위에 반영되지 않습니다"]
+                .filter(Boolean)
+                .join(" · "),
+        canRetry: false,
+        canChoose: false,
+        isChosen: false,
+        extracted: state === "unchecked" ? (result?.extracted ?? []) : [],
+      };
+    }
+
+    const org = stateById.get(input.id);
     if (!org) {
       const state: RowState = input.phase === "running" ? "running" : "waiting";
       return {
-        id: input.id, fileName: input.fileName,
-        institution: "-", itemType: "-",
-        state, stateLabel: STATE_LABEL[state],
-        canRetry: false, canChoose: false, isChosen: false, extracted: [],
+        id: input.id,
+        fileName: input.fileName,
+        institution: alio?.institutionName ?? "-",
+        itemType: alio?.itemName ?? "-",
+        state,
+        stateLabel: STATE_LABEL[state],
+        canRetry: false,
+        canChoose: false,
+        isChosen: false,
+        extracted: [],
       };
     }
 
@@ -115,15 +170,16 @@ export function buildResultRows(
     // 정상 파일에는 의심 항목 수를 함께 보인다. 기관·항목을 모르는 파일은 순위에 들어가지 않는다는 점을 알린다.
     const own = state === "unclassified" ? "순위에 반영되지 않음" : org.note;
     const showFindings = result?.status === "ok" && (state === "ready" || state === "unclassified");
-    const note = showFindings ? [own, findingsNote(result)].filter(Boolean).join(" · ") : own;
+    const parts = showFindings ? [period, own, findingsNote(result)] : [own];
     return {
       id: input.id,
       fileName: input.fileName,
-      institution: org.institutionLabel,
-      itemType: org.itemTypeLabel,
+      // 알리오에서 가져온 보고서의 기관·항목은 AI가 읽은 값이 아니라 목록으로 정해진 이름을 보인다
+      institution: alio?.institutionName ?? org.institutionLabel,
+      itemType: alio?.itemName ?? org.itemTypeLabel,
       state,
       stateLabel: STATE_LABEL[state],
-      note,
+      note: parts.filter(Boolean).join(" · ") || undefined,
       canRetry: state === "failed",
       canChoose: state === "duplicate",
       isChosen: state === "ready" && org.note === "사용할 파일로 선택됨",
