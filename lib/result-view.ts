@@ -7,6 +7,7 @@
 import { organize, slotKey } from "./aggregate.ts";
 import type { AlioOutcome } from "./alio/api-types.ts";
 import { CHECKLIST } from "./checklist.ts";
+import { alioItemUrl, alioPdfUrl } from "./alio/links.ts";
 import { maskAll } from "./mask.ts";
 import type { ItemType } from "./checklist.ts";
 import type { ClassifiedFile, ExtractedField, FileResult, FileState } from "./types.ts";
@@ -23,6 +24,10 @@ export interface ViewAlio {
   itemName: string;
   /** 보고서의 연도·분기. 모르면 null */
   period: string | null;
+  /** 알리오 공시항목 번호. 알리오 화면 바로가기 링크에 쓴다 */
+  formNo?: string;
+  /** 알리오 공시번호. 보고서를 찾았을 때만 있고 PDF 받기 링크에 쓴다 */
+  disclosureNo?: string;
   /** 알리오 가져오기 API의 결과. 서버에 연결하지 못해 결과를 못 받았으면 "request-failed" */
   outcome: AlioOutcome | "request-failed";
 }
@@ -70,19 +75,24 @@ export interface ResultRow {
   /** 중복을 해소할 때 choices 에 넣을 열쇠 (기관·항목을 알 때만) */
   choiceKey?: string;
   extracted: ExtractedField[];
+  /** 알리오에서 가져온 건이면 알리오 화면·PDF 링크. 직접 올린 파일이면 null */
+  alioLinks: { itemUrl: string | null; pdfUrl: string | null } | null;
   /** 개인정보로 보여서 가린 값의 수 (화면 표시용으로만 가리고 받은 결과는 그대로 둔다) */
   maskedCount: number;
 }
 
 /** 가리기 전의 줄 */
-type RawRow = Omit<ResultRow, "maskedCount">;
+type RawRow = Omit<ResultRow, "maskedCount" | "alioLinks">;
 
 /**
  * 화면에 보일 글자 중 개인정보로 보이는 값(전화번호·이메일·주민등록번호 형태)을 가린다.
  * 알리오에 공개된 보고서는 누구나 볼 수 있는 자료이므로 가리지 않는다(원문 대조가 쉽도록). 직접 올린 파일만 가린다.
  */
-function maskRow(row: RawRow, isPublic: boolean): ResultRow {
-  if (isPublic) return { ...row, maskedCount: 0 };
+function maskRow(row: RawRow, alio: ViewAlio | undefined): ResultRow {
+  const alioLinks = alio
+    ? { itemUrl: alio.formNo ? alioItemUrl(alio.formNo) : null, pdfUrl: alio.disclosureNo ? alioPdfUrl(alio.disclosureNo) : null }
+    : null;
+  if (alio) return { ...row, alioLinks, maskedCount: 0 };
   const m = maskAll([row.fileName, row.institution, row.itemType, row.note, ...row.extracted.flatMap((e) => [e.label, e.value, e.location])]);
   const [fileName, institution, itemType, note, ...rest] = m.texts;
   return {
@@ -92,6 +102,7 @@ function maskRow(row: RawRow, isPublic: boolean): ResultRow {
     itemType: itemType as string,
     note,
     extracted: row.extracted.map((_, i) => ({ label: rest[i * 3] as string, value: rest[i * 3 + 1] as string, location: rest[i * 3 + 2] as string })),
+    alioLinks,
     maskedCount: m.count,
   };
 }
@@ -213,5 +224,5 @@ export function buildResultRows(
     };
   };
 
-  return inputs.map((input) => maskRow(build(input), Boolean(input.alio)));
+  return inputs.map((input) => maskRow(build(input), input.alio));
 }

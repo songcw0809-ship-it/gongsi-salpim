@@ -91,6 +91,15 @@ export default function FindingDetailPanel({ detail, onClose }: Props) {
                       <span className="text-zinc-600 dark:text-zinc-400">&ldquo;{item.quote}&rdquo;</span>
                     </dd>
                   </dl>
+                  {item.fix && (
+                    <div className="rounded-md bg-blue-50 p-2.5 text-xs dark:bg-blue-950/40">
+                      <p className="font-medium text-blue-900 dark:text-blue-200">이렇게 고치면 좋습니다 (보완 요청 예시)</p>
+                      <p className="mt-1">{item.fix.action}</p>
+                      <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+                        예) <span className="font-mono">{item.fix.example}</span>
+                      </p>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
@@ -98,7 +107,7 @@ export default function FindingDetailPanel({ detail, onClose }: Props) {
         ))}
 
         <p className="mt-auto border-t border-zinc-200 pt-3 text-xs text-zinc-500 dark:border-zinc-800">
-          AI가 찾은 의심 항목이며 오류를 확정한 것이 아닙니다. 판단은 담당자가 앱 밖에서 직접 하세요(앱은 파일을
+          AI가 찾은 의심 항목이며 오류를 확정한 것이 아닙니다. 수정 예시의 금액·이름은 설명을 위한 가짜 값입니다. 판단과 보완 요청은 담당자가 앱 밖에서 직접 하세요(앱은 파일을
           고치거나 기관에 연락하지 않습니다).
         </p>
       </aside>

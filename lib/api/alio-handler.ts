@@ -109,17 +109,20 @@ export function createAlioHandlers(deps: AlioHandlerDeps = {}) {
 
       // 6. 알리오에서 가져오기
       let period: string | null = null;
+      let disclosureNo: string | undefined;
       let bytes: Uint8Array;
       try {
         const disclosure = await alio.findDisclosure(institution.id, item.formNo);
         if (!disclosure) return respond({ outcome: "not-found", institution: who, period: null });
         period = disclosure.period;
+        disclosureNo = disclosure.disclosureNo;
         bytes = await alio.downloadReport(disclosure.disclosureNo);
       } catch (e) {
         return respond({
           outcome: "fetch-failed",
           institution: who,
           period,
+          disclosureNo,
           reason: e instanceof AlioError ? e.message : "알리오에서 가져오는 중 오류가 났습니다",
         });
       }
@@ -135,8 +138,8 @@ export function createAlioHandlers(deps: AlioHandlerDeps = {}) {
         itemName: item.name,
         checklist: item.checklist,
       });
-      if (result.status !== "ok") return respond({ outcome: "check-failed", institution: who, period, result });
-      return respond({ outcome: checked ? "checked" : "extracted-only", institution: who, period, result });
+      if (result.status !== "ok") return respond({ outcome: "check-failed", institution: who, period, disclosureNo, result });
+      return respond({ outcome: checked ? "checked" : "extracted-only", institution: who, period, disclosureNo, result });
     },
   };
 }

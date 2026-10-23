@@ -15,6 +15,8 @@ export interface AlioCheckResponse {
   item: { no: string; name: string; formNo: string; hasChecklist: boolean };
   /** 가져온 보고서의 연도·분기. 알아내지 못하면 null */
   period: string | null;
+  /** 알리오 공시번호. 보고서를 찾았을 때만 있다 (PDF 받기 링크에 쓴다) */
+  disclosureNo?: string;
   /** outcome 이 checked · extracted-only · check-failed 일 때 */
   result?: FileResult;
   /** outcome 이 fetch-failed 일 때 이유 */
