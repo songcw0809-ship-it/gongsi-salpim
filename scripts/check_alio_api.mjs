@@ -136,10 +136,10 @@ console.log("\n== 3. 점검 기준이 있는 항목(임원 연봉): 가져와서
   check(body.result.model === "gpt-6-luna" && body.result.usage?.inputTokens === 20, "결과에 모델과 토큰 사용량이 남음");
 }
 
-console.log("\n== 4. 점검 기준이 없는 항목(임직원 수): 값만 뽑고 AI 대조는 하지 않음");
+console.log("\n== 4. 점검 기준이 없는 항목(AI 활용현황): 값만 뽑고 AI 대조는 하지 않음");
 {
   const ai = fakeAi();
-  const { body } = await run(handlers(fakeAlio(), ai), { apbaId: "C0847", formNo: "2020", model: "gpt-6.1-sol" });
+  const { body } = await run(handlers(fakeAlio(), ai), { apbaId: "C0847", formNo: "80402", model: "gpt-6.1-sol" });
   check(body.outcome === "extracted-only" && body.item.hasChecklist === false, "outcome = extracted-only (점검 기준 준비 중)", body.outcome);
   check(ai.calls.map((c) => c.name).join() === "extract_values", "AI는 값 추출 한 번만 부름 (체크리스트 대조 없음)", ai.calls.map((c) => c.name).join());
   check(body.result.findings.length === 0 && body.result.itemType === null && body.result.extracted.length === 2, "지적은 없고 값은 뽑혀 있으며, 항목 종류는 null(점검 기준 항목이 아님)");

@@ -208,18 +208,15 @@ export async function analyzeKnownDocument(args: {
     throw new Error("문서가 너무 길어 점검할 수 없음");
   }
 
+  // 값 추출과 체크리스트 대조는 서로 결과를 쓰지 않으므로 동시에 부른다 (긴 보고서에서 처리 시간을 절반 가까이 줄인다)
   const e = extractPrompt(units, itemName);
-  const answer = await ai.json({
-    model,
-    system: e.system,
-    user: e.user,
-    schemaName: EXTRACT_SCHEMA_NAME,
-    schema: EXTRACT_SCHEMA,
-  });
+  const [answer, checked] = await Promise.all([
+    ai.json({ model, system: e.system, user: e.user, schemaName: EXTRACT_SCHEMA_NAME, schema: EXTRACT_SCHEMA }),
+    checklist ? runCheck({ units, itemType: checklist, model, ai, addUsage }) : Promise.resolve(null),
+  ]);
   addUsage(answer.usage);
   const extracted = checkExtracted(extractAnswer.parse(answer.data).extracted, units);
 
-  if (!checklist) return { extracted, findings: [], dropped: [], checked: false, usage };
-  const { findings, dropped } = await runCheck({ units, itemType: checklist, model, ai, addUsage });
-  return { extracted, findings, dropped, checked: true, usage };
+  if (!checked) return { extracted, findings: [], dropped: [], checked: false, usage };
+  return { extracted, findings: checked.findings, dropped: checked.dropped, checked: true, usage };
 }

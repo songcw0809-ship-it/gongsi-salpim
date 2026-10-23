@@ -1,6 +1,6 @@
 // Design Ref: DESIGN.md §2.1 — 파일 1개를 받아 ②글자 뽑기 → ③분류·추출 → ④대조 → ⑤검증까지 한 번에 한다.
 // Plan SC: PLAN.md 5번 — 파일 1개 → 지적 목록(FileResult). 여러 파일을 받는 API는 PLAN 8번에서 이 함수를 부른다.
-import { CHECKLIST } from "./checklist.ts";
+import { UPLOAD_ITEM_TYPES } from "./checklist.ts";
 import type { ItemType } from "./checklist.ts";
 import { extractExcel } from "./extract/excel.ts";
 import { extractPdf } from "./extract/pdf.ts";
@@ -10,9 +10,7 @@ import { isAllowedModel } from "./ai/models.ts";
 import type { ExtractResult, FileResult } from "./types.ts";
 
 /** 체크리스트가 알고 있는 항목 종류들. 항목을 추가하면 자동으로 늘어난다. */
-export const ITEM_TYPES: readonly ItemType[] = [
-  ...new Set(CHECKLIST.map((r) => r.scope).filter((s): s is ItemType => s !== "공통")),
-];
+export const ITEM_TYPES: readonly ItemType[] = UPLOAD_ITEM_TYPES;
 
 function extract(fileName: string, bytes: Uint8Array): Promise<ExtractResult> {
   const lower = fileName.toLowerCase();
