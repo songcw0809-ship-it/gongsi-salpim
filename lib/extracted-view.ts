@@ -6,8 +6,12 @@
 // 이 파일은 일반 함수만 있어서 화면 없이 시험할 수 있다 (scripts/check_extracted.mjs).
 import type { ExtractedField } from "./types.ts";
 
+/** 표에서 줄을 어떻게 꾸밀지: 합계 줄, 위 줄에 딸린 "(…)" 줄, 긴 글(주석·설명) 줄, 그 밖의 줄 */
+export type RowKind = "normal" | "total" | "sub" | "note";
+
 export interface ExtractedRow {
   label: string;
+  kind: RowKind;
   /** 열 제목이 있고 값이 열 수와 맞으면 열마다 한 칸, 아니면 한 칸 */
   cells: string[];
   /** true 면 cells[0] 한 칸이 모든 열에 걸쳐 보인다 */
@@ -35,7 +39,8 @@ function split(label: string): { head: string; rest: string } {
 /** "2021년 결산 2022년 결산 …" → ["2021년 결산", "2022년 결산", …]. 연도가 2개 미만이면 열 제목으로 쓰지 않는다 */
 function parseColumns(value: string): string[] {
   const found = value.match(/\d{4}년[^\d]*/g)?.map((s) => s.trim()) ?? [];
-  return found.length >= 2 ? found : [];
+  // 값 대부분이 "연도 + 구분 글자"일 때만 열 제목으로 본다 (연도가 섞인 긴 설명 글은 제외)
+  return found.length >= 2 && found.join(" ").length >= value.trim().length * 0.6 ? found : [];
 }
 
 function toCells(value: string, columns: readonly string[]): { cells: string[]; merged: boolean } {
@@ -44,12 +49,21 @@ function toCells(value: string, columns: readonly string[]): { cells: string[]; 
   if (n === 0) return { cells: [text], merged: false };
   const tokens = text.split(/\s+/).filter(Boolean);
   if (tokens.length === n) return { cells: tokens, merged: false };
-  // "해당사항 없음 해당사항 없음 …"처럼 한 칸이 여러 단어인 값: 열 수로 똑같이 나눌 수 있을 때만 나눈다
+  // "해당사항 없음 해당사항 없음 …"처럼 한 칸이 여러 단어인 값: 열 수로 똑같이 나누어지고 모든 칸이 같은 문구일 때만 나눈다
   if (tokens.length > n && tokens.length % n === 0) {
     const size = tokens.length / n;
-    return { cells: Array.from({ length: n }, (_, k) => tokens.slice(k * size, (k + 1) * size).join(" ")), merged: false };
+    const chunks = Array.from({ length: n }, (_, k) => tokens.slice(k * size, (k + 1) * size).join(" "));
+    // 같은 문구가 열마다 되풀이될 때만 나눈다. 우연히 단어 수가 맞아떨어진 문장은 나누지 않는다
+    if (new Set(chunks).size === 1) return { cells: chunks, merged: false };
   }
   return { cells: [text], merged: true };
+}
+
+function rowKind(label: string, merged: boolean, text: string): RowKind {
+  if (/^(합계|총계|계)$/.test(label.trim())) return "total";
+  if (label.trim().startsWith("(")) return "sub";
+  if (merged && text.length > 14) return "note";
+  return "normal";
 }
 
 interface Pending {
@@ -76,7 +90,8 @@ export function buildExtractedSections(fields: readonly ExtractedField[]): Extra
       entry = { section: { title, caption: null, columns: [], rows: [] }, pending: [] };
       byTitle.set(title, entry);
     }
-    if (title !== BASIC_TITLE && label.startsWith("구분")) {
+    // 열 제목 줄: 이름이 "구분"이든 "열 순서"든 AI가 붙이는 이름은 달라지므로, 값에 연도가 2개 이상 나열된 첫 줄을 쓴다
+    if (title !== BASIC_TITLE && entry.section.columns.length === 0) {
       const cols = parseColumns(f.value);
       if (cols.length > 0) {
         entry.section.columns = cols;
@@ -91,6 +106,9 @@ export function buildExtractedSections(fields: readonly ExtractedField[]): Extra
   }
   return [...byTitle.values()].map(({ section, pending }) => ({
     ...section,
-    rows: pending.map((p) => ({ label: p.label, ...toCells(p.value, section.columns), location: p.location })),
+    rows: pending.map((p) => {
+      const c = toCells(p.value, section.columns);
+      return { label: p.label, kind: rowKind(p.label, c.merged, c.cells[0] ?? ""), ...c, location: p.location };
+    }),
   }));
 }

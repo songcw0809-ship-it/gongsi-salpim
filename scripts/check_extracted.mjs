@@ -40,6 +40,16 @@ const alt = buildExtractedSections([
 ]);
 check(alt[0].columns.join() === "2021년 결산,2022년 결산,2026년 예산" && alt[0].rows.length === 1 && alt[0].rows[0].cells.length === 3, "'구분(설명)'처럼 뒤에 글자가 붙은 구분 줄도 열 제목으로 씀");
 
+const kinds = buildExtractedSections([
+  f("상임감사 구분", YEARS),
+  f("상임감사 기본급", "1 2 3"),
+  f("상임감사 (경영평가 성과급)", "4 5 6"),
+  f("상임감사 합계", "5 7 9"),
+  f("상임감사 경영평가 성과급 주석", "* 경영평가 성과급의 경우 당해연도 예산은 미확정으로 0으로 기재"),
+  f("상임감사 비고", "연봉제 연봉제 연봉제"),
+])[0].rows.map((r) => r.kind).join();
+check(kinds === "normal,sub,total,note,normal", "줄 종류: 합계·(괄호) 딸림 줄·긴 주석을 구분하고 비고 같은 짧은 줄은 보통 줄", kinds);
+
 const flat =buildExtractedSections([f("기관명", "가"), f("공시 시기", "2026년 1/4분기"), f("총 인원", "10")]);
 check(flat.length === 1 && flat[0].title === "기본 정보" && flat[0].rows.length === 3 && flat[0].rows[1].label === "공시 시기", "묶음이 없으면 한 표, 한 번만 나온 첫 단어는 묶지 않음");
 check(buildExtractedSections([]).length === 0, "비어 있으면 표 없음");
