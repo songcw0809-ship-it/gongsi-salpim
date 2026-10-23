@@ -117,24 +117,14 @@
           "location": "1쪽"
         }
       ],
-      "findings": [
-        {
-          "ruleId": "C-1",
-          "message": "오류 가능성: 공시 기간은 2021년~2025년으로 표시되어 있으나, 보수 현황에 연도별 자료가 구분되어 있지 않고 미제공 기간의 사유도 기재되어 있지 않아 최근 5년간의 자료 공시가 미흡한 것으로 보입니다.",
-          "confidence": "높음",
-          "evidence": {
-            "quote": "임원 보수 현황",
-            "location": "1쪽"
-          }
-        }
-      ],
+      "findings": [],
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1706,
-        "outputTokens": 1076
+        "inputTokens": 1719,
+        "outputTokens": 812
       },
-      "elapsedMs": 19089
+      "elapsedMs": 10827
     }
   },
   {
@@ -294,10 +284,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1781,
-        "outputTokens": 1041
+        "inputTokens": 1794,
+        "outputTokens": 977
       },
-      "elapsedMs": 12832
+      "elapsedMs": 10637
     }
   },
   {
@@ -406,7 +396,7 @@
       "findings": [
         {
           "ruleId": "R10-3",
-          "message": "오류 가능성: 임원 보수 현황에 급여성 복리후생비 항목이 기재되어 있지 않은 것으로 보입니다.",
+          "message": "오류 가능성: 임원 보수 현황에 급여성 복리후생비가 기재되어 있지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "임원 보수 현황",
@@ -417,10 +407,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1668,
-        "outputTokens": 919
+        "inputTokens": 1681,
+        "outputTokens": 713
       },
-      "elapsedMs": 16525
+      "elapsedMs": 10468
     }
   },
   {
@@ -576,24 +566,14 @@
           "location": "1쪽"
         }
       ],
-      "findings": [
-        {
-          "ruleId": "C-1",
-          "message": "오류 가능성: 직원 1인당 보수 현황은 5개년 자료가 있으나, 성별 평균 보수·평균근속연수와 신입직원 평균보수는 각각 단일 값만 기재되어 있어 최근 5년간 자료가 충분히 공시되지 않은 것으로 보입니다. 해당 항목의 과거 자료를 공시하지 않은 사유도 확인되지 않습니다.",
-          "confidence": "중간",
-          "evidence": {
-            "quote": "직원 평균보수 공시",
-            "location": "1쪽"
-          }
-        }
-      ],
+      "findings": [],
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1783,
-        "outputTokens": 1364
+        "inputTokens": 1796,
+        "outputTokens": 947
       },
-      "elapsedMs": 22982
+      "elapsedMs": 11150
     }
   },
   {
@@ -714,24 +694,14 @@
           "location": "1쪽"
         }
       ],
-      "findings": [
-        {
-          "ruleId": "C-1",
-          "message": "오류 가능성: 공시 기간은 2021년~2025년으로 표시되어 있으나, 보수 현황에는 연도별 자료 구분이 없어 최근 5년간의 자료가 모두 공시되었는지 확인하기 어려운 것으로 보입니다. 확인되지 않는 기간의 자료에 대한 미공시 사유도 기재되지 않은 것으로 보입니다.",
-          "confidence": "중간",
-          "evidence": {
-            "quote": "임원 보수 현황",
-            "location": "1쪽"
-          }
-        }
-      ],
+      "findings": [],
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1704,
-        "outputTokens": 1192
+        "inputTokens": 1717,
+        "outputTokens": 755
       },
-      "elapsedMs": 20857
+      "elapsedMs": 8344
     }
   },
   {
@@ -885,7 +855,7 @@
       "findings": [
         {
           "ruleId": "R11-2",
-          "message": "오류 가능성: 직원 1인당 평균 보수에 남성 보수만 기재되어 있어, 여성 평균 보수가 누락된 것으로 보입니다.",
+          "message": "오류 가능성: 직원 1인당 평균 보수에 남성 보수만 기재되어 있고 여성 보수가 누락되어, 남성·여성 구분 공시가 충족되지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "직원 1인당 평균 보수",
@@ -896,10 +866,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1749,
-        "outputTokens": 1070
+        "inputTokens": 1762,
+        "outputTokens": 1015
       },
-      "elapsedMs": 12934
+      "elapsedMs": 12253
     }
   },
   {
@@ -1008,7 +978,7 @@
       "findings": [
         {
           "ruleId": "R10-6",
-          "message": "오류 가능성: 임원의 성별 평균보수가 기재되어 있지 않은 것으로 보입니다.",
+          "message": "오류 가능성: 임원의 성별 평균보수가 기재되지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "임원 보수 현황",
@@ -1019,10 +989,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1636,
-        "outputTokens": 817
+        "inputTokens": 1649,
+        "outputTokens": 593
       },
-      "elapsedMs": 12063
+      "elapsedMs": 8441
     }
   },
   {
@@ -1176,19 +1146,10 @@
       "findings": [
         {
           "ruleId": "R11-4",
-          "message": "오류 가능성: 신입직원 평균보수가 기재되지 않은 것으로 보입니다.",
+          "message": "오류 가능성: 신입직원 평균보수가 기재되어 있지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "직원 평균보수 공시",
-            "location": "1쪽"
-          }
-        },
-        {
-          "ruleId": "C-1",
-          "message": "오류 가능성: 보수 항목별 자료는 5개년으로 제시되어 있으나, 남성·여성별 평균 보수와 평균근속연수는 각각 단일 값만 제시되어 최근 5년간의 자료가 누락된 것으로 보입니다. 해당 기간의 자료를 공시하지 못한 사유도 기재되지 않은 것으로 보입니다.",
-          "confidence": "중간",
-          "evidence": {
-            "quote": "직원 1인당 평균 보수",
             "location": "1쪽"
           }
         }
@@ -1196,10 +1157,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1751,
-        "outputTokens": 1294
+        "inputTokens": 1764,
+        "outputTokens": 965
       },
-      "elapsedMs": 17176
+      "elapsedMs": 12629
     }
   },
   {
@@ -1323,7 +1284,7 @@
       "findings": [
         {
           "ruleId": "R10-4",
-          "message": "오류 가능성: 임원 보수 현황에 경영평가 성과급 항목이 누락된 것으로 보입니다.",
+          "message": "오류 가능성: 임원 보수 현황에 경영평가 성과급이 기재되지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "임원 보수 현황",
@@ -1332,19 +1293,10 @@
         },
         {
           "ruleId": "R10-7",
-          "message": "오류 가능성: 기준 시점이 6월 30일로 기재되어 있으며, 연도말 결산기준 또는 당해연도 예산기준이라는 표시가 없는 것으로 보입니다.",
+          "message": "오류 가능성: 기준 시점이 2026년 6월 30일로 표시되어 있어, 연도말 결산기준(당해연도는 예산기준) 표시 요건을 충족하지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "기준 시점: 2026년 6월 30일 기준",
-            "location": "1쪽"
-          }
-        },
-        {
-          "ruleId": "C-1",
-          "message": "오류 가능성: 공시 기간은 2021년부터 2025년까지로 표시되어 있으나, 보수 현황에는 연도 구분 없는 자료만 있어 최근 5년간의 자료가 모두 제시되었는지 확인하기 어려운 것으로 보입니다. 연도별 자료나 미공시 사유의 보완이 필요한 것으로 보입니다.",
-          "confidence": "중간",
-          "evidence": {
-            "quote": "임원 보수 현황",
             "location": "1쪽"
           }
         }
@@ -1352,10 +1304,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1644,
-        "outputTokens": 1225
+        "inputTokens": 1657,
+        "outputTokens": 990
       },
-      "elapsedMs": 17763
+      "elapsedMs": 12854
     }
   },
   {
@@ -1509,7 +1461,7 @@
       "findings": [
         {
           "ruleId": "R11-3",
-          "message": "오류 가능성: 직원 평균근속연수가 전체 평균으로만 기재되어 있어, 남성·여성 구분이 누락된 것으로 보입니다.",
+          "message": "오류 가능성: 직원 평균근속연수가 전체로만 기재되어 있고, 남성·여성으로 구분된 평균근속연수가 누락된 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "직원 평균근속연수",
@@ -1520,10 +1472,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1747,
-        "outputTokens": 1064
+        "inputTokens": 1760,
+        "outputTokens": 982
       },
-      "elapsedMs": 14345
+      "elapsedMs": 10589
     }
   },
   {
@@ -1617,7 +1569,7 @@
       "findings": [
         {
           "ruleId": "R10-1",
-          "message": "오류 가능성: 임원 보수 현황에 임원별 기본급(기본연봉)이 기재되지 않은 것으로 보입니다.",
+          "message": "오류 가능성: 임원별 기본급(기본연봉)이 기재되지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "임원 보수 현황",
@@ -1626,17 +1578,8 @@
         },
         {
           "ruleId": "R10-5",
-          "message": "오류 가능성: 임원 보수 현황에 기타 성과상여금 항목이 기재되지 않은 것으로 보입니다.",
+          "message": "오류 가능성: 기타 성과상여금이 기재되지 않은 것으로 보입니다.",
           "confidence": "높음",
-          "evidence": {
-            "quote": "임원 보수 현황",
-            "location": "1쪽"
-          }
-        },
-        {
-          "ruleId": "C-1",
-          "message": "오류 가능성: 공시 기간은 2021년부터 2025년까지로 표시되어 있으나, 보수 현황에 연도별 구분 없이 한 묶음의 금액만 제시되어 있어 최근 5년간의 자료가 실제로 공시되었는지 확인하기 어려운 것으로 보입니다. 누락 기간에 대한 사유도 기재되지 않은 것으로 보입니다.",
-          "confidence": "중간",
           "evidence": {
             "quote": "임원 보수 현황",
             "location": "1쪽"
@@ -1646,10 +1589,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1630,
-        "outputTokens": 1023
+        "inputTokens": 1643,
+        "outputTokens": 780
       },
-      "elapsedMs": 16848
+      "elapsedMs": 10893
     }
   },
   {
@@ -1748,7 +1691,7 @@
       "findings": [
         {
           "ruleId": "C-1",
-          "message": "오류 가능성: 최근 5년이 아닌 2개년 자료만 공시되어 있으며, 나머지 기간의 자료를 공시하지 않은 사유가 기재되지 않은 것으로 보입니다.",
+          "message": "오류 가능성: 공시 기간이 2024년부터 2025년까지 2개년으로 최근 5년에 못 미치지만, 나머지 기간의 자료를 공시하지 않은 사유가 기재되지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "공시 기간: 2024년 ~ 2025년 (2개년)",
@@ -1757,7 +1700,7 @@
         },
         {
           "ruleId": "C-2",
-          "message": "오류 가능성: 공시일이 2026년 6월 15일로 기재되어 있어 매년 4월 말 정기공시 갱신 기한을 지키지 않은 것으로 보입니다.",
+          "message": "오류 가능성: 공시일이 2026년 6월 15일로 기재되어 있어 정기공시 갱신 시점인 매년 4월말을 지키지 않은 것으로 보입니다.",
           "confidence": "높음",
           "evidence": {
             "quote": "공시일: 2026-06-15",
@@ -1768,10 +1711,10 @@
       "model": "gpt-6-astra",
       "status": "ok",
       "usage": {
-        "inputTokens": 1661,
-        "outputTokens": 783
+        "inputTokens": 1674,
+        "outputTokens": 880
       },
-      "elapsedMs": 11946
+      "elapsedMs": 11106
     }
   }
 ]
