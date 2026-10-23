@@ -223,14 +223,14 @@ export default function AlioPicker({ disabled, onStart }: Props) {
         {chosenInstitutions.length > 0 && (
           <ul className="flex flex-wrap gap-1.5" aria-label="고른 기관">
             {chosenInstitutions.map((i) => (
-              <li key={i.id} className="flex items-center gap-1 rounded-full bg-blue-50 py-0.5 pl-2.5 pr-1 text-xs text-blue-900 dark:bg-blue-950/50 dark:text-blue-200">
+              <li key={i.id} className="flex items-center gap-1 rounded-full bg-amber-100 py-0.5 pl-2.5 pr-1 text-xs font-medium text-amber-900">
                 {i.name}
                 <button
                   type="button"
                   disabled={disabled}
                   onClick={() => setInstIds((p) => p.filter((id) => id !== i.id))}
                   aria-label={`${i.name} 빼기`}
-                  className="rounded-full px-1.5 text-blue-700 hover:bg-blue-100 dark:text-blue-300"
+                  className="rounded-full px-1.5 text-[var(--ink)] hover:bg-amber-200"
                 >
                   ✕
                 </button>

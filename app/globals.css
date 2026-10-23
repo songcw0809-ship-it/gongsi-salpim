@@ -22,7 +22,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans-kr), "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
-  --font-serif: var(--font-serif-kr), "Batang", serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -184,8 +183,10 @@ body::after {
   font-weight: 700;
 }
 
-.serif {
-  font-family: var(--font-serif);
+/* 숫자는 글자 폭이 같은 모양으로 */
+.num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 /* 체크박스·라디오를 둥글고 파랗게 */

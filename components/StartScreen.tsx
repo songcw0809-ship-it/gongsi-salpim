@@ -265,7 +265,7 @@ export default function StartScreen() {
           }}
           className={`flex cursor-pointer flex-col items-center justify-center gap-1 rounded-3xl border-2 border-dashed px-4 py-10 text-center transition-colors ${
             dragging
-              ? "border-blue-500 bg-blue-50 dark:bg-blue-950/30"
+              ? "border-amber-400 bg-amber-50"
               : "border-zinc-300 hover:border-zinc-400 dark:border-zinc-700"
           }`}
         >
